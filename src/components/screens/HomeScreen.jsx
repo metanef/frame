@@ -5,7 +5,7 @@ import { dayOfYear } from '../../utils'
 import { db } from '../../db'
 
 export default function HomeScreen() {
-  const { openCalendar, openStats } = useAppStore()
+  const { openCalendar, openStats, setScreen } = useAppStore()
   const [opened, setOpened] = useState(false)
   const [streak, setStreak] = useState(0)
 
@@ -73,13 +73,27 @@ export default function HomeScreen() {
       <motion.div
         animate={{ opacity: opened ? 0 : 1 }}
         transition={{ duration: 0.35 }}
-        className="absolute top-9 right-4 flex items-center gap-1 bg-[var(--surface-2)] border border-[var(--border)] rounded-full px-3 py-1.5"
+        className="absolute top-9 left-4 flex items-center gap-1 bg-[var(--surface-2)] border border-[var(--border)] rounded-full px-3 py-1.5"
         style={{ zIndex: 10 }}
       >
         <span className="text-sm">🔥</span>
         <span className="text-sm font-medium text-[var(--text-primary)]">{streak}</span>
         <span className="text-[10px] text-[var(--text-muted)]">streak</span>
       </motion.div>
+
+      {/* Settings button */}
+      <motion.button
+        onClick={() => setScreen('settings')}
+        animate={{ opacity: opened ? 0 : 1 }}
+        transition={{ duration: 0.35 }}
+        className="absolute top-9 right-4 w-9 h-9 rounded-full border flex items-center justify-center bg-[var(--surface-2)] border-[var(--border)] active:scale-95 transition-transform focus:outline-none"
+        style={{ zIndex: 10 }}
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--text-secondary)]">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </motion.button>
 
       {/* 3D Book Wrapper */}
       <motion.div
