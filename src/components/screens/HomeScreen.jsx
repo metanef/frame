@@ -42,7 +42,7 @@ export default function HomeScreen() {
   function handleBookTap() {
     if (!opened) {
       setOpened(true)
-      setTimeout(() => openCalendar('month'), 700)
+      setTimeout(() => openCalendar('month'), 750)
     }
   }
 
@@ -51,7 +51,7 @@ export default function HomeScreen() {
       {/* Background ruled lines */}
       <motion.div
         animate={{ opacity: opened ? 0 : 0.4 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.35 }}
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 39px, var(--border) 39px, var(--border) 40px)',
@@ -87,8 +87,8 @@ export default function HomeScreen() {
         <motion.div
           animate={opened ? { scale: 3.8, opacity: 0 } : { scale: 1, opacity: 1 }}
           transition={{
-            duration: 0.85,
-            delay: 0.05,
+            duration: 0.55,
+            delay: 0.45,
             ease: [0.4, 0, 0.2, 1]
           }}
           style={{
@@ -130,9 +130,9 @@ export default function HomeScreen() {
             opacity: opened ? 0 : 1
           }}
           transition={{
-            rotateY: { duration: 0.9, ease: [0.34, 1.56, 0.64, 1] },
-            rotateX: { duration: 0.9, ease: [0.34, 1.56, 0.64, 1] },
-            opacity: { duration: 0.25, delay: 0.2, ease: 'linear' }
+            rotateY: { duration: 0.45, ease: [0.25, 1, 0.5, 1] },
+            rotateX: { duration: 0.45, ease: [0.25, 1, 0.5, 1] },
+            opacity: { duration: 0.1, delay: 0.35, ease: 'linear' }
           }}
           style={{
             transformStyle: 'preserve-3d',
