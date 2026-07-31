@@ -158,27 +158,6 @@ export default function CalendarScreen() {
   function YearView() {
     const year = refDate.getFullYear()
     const jan1 = new Date(year, 0, 1)
-    const jan1dow = jan1.getDay() === 0 ? 7 : jan1.getDay()
-    const totalCols = 53
-
-    const cells = []
-    for (let col = 0; col < totalCols; col++) {
-      for (let row = 0; row < 7; row++) {
-        const dayOffset = col * 7 + row - (jan1dow - 1)
-        const date = new Date(year, 0, 1 + dayOffset)
-        const inYear = date.getFullYear() === year
-        cells.push({ col, row, date, inYear })
-      }
-    }
-
-    // Month label positions
-    const monthPositions = []
-    for (let m = 0; m < 12; m++) {
-      const d = new Date(year, m, 1)
-      const doy = Math.round((d - jan1) / 86400000)
-      const col = Math.floor((doy + jan1dow - 1) / 7)
-      monthPositions.push({ m, col })
-    }
 
     // KPIs calculations
     let successfulDays = 0
@@ -264,39 +243,70 @@ export default function CalendarScreen() {
           </div>
         </div>
 
-        {/* Month labels */}
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${totalCols}, 1fr)`, gap: 2, marginBottom: 4 }}>
-          {monthPositions.map(p => (
-            <span key={p.m} style={{
-              gridColumnStart: p.col + 1,
-              gridColumnEnd: 'span 4',
-              fontSize: 9,
-              color: 'var(--text-muted)',
-              textAlign: 'left',
-              whiteSpace: 'nowrap'
-            }}>
-              {MONTHS_SHORT[p.m]}
-            </span>
-          ))}
+        {/* Mini Months Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+          {Array.from({ length: 12 }).map((_, m) => {
+            const first = new Date(year, m, 1)
+            const dow = first.getDay() === 0 ? 6 : first.getDay() - 1
+            const daysInMonth = new Date(year, m + 1, 0).getDate()
+
+            const monthCells = []
+            for (let i = 0; i < dow; i++) {
+              monthCells.push({ empty: true })
+            }
+            for (let day = 1; day <= daysInMonth; day++) {
+              monthCells.push({ date: new Date(year, m, day) })
+            }
+
+            return (
+              <div key={m} className="bg-[var(--surface-2)] border border-[var(--border)] rounded-xl p-2.5">
+                <div className="text-[11px] font-semibold text-[var(--text-primary)] mb-1.5 text-center">
+                  {MONTHS[m]}
+                </div>
+                <div className="grid grid-cols-7 gap-[2px] text-center mb-1">
+                  {['M','T','W','T','F','S','S'].map((d, i) => (
+                    <div key={i} className="text-[8px] font-semibold text-[var(--text-muted)]">{d}</div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-7 gap-[3px]">
+                  {monthCells.map((cell, idx) => {
+                    if (cell.empty) {
+                      return <div key={`empty-${idx}`} className="aspect-square" />
+                    }
+                    const { date } = cell
+                    const isToday = fmt(date) === fmt(today)
+                    const isFuture = date > today
+                    const isSelected = selected && fmt(date) === fmt(selected)
+
+                    return (
+                      <div
+                        key={date.getDate()}
+                        onClick={() => !isFuture && setSelected(date)}
+                        style={{
+                          aspectRatio: '1',
+                          borderRadius: 4,
+                          background: cellColor(date),
+                          cursor: isFuture ? 'default' : 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          outline: isSelected ? '1.5px solid #3b82f6' : undefined,
+                          outlineOffset: 0.5,
+                          boxShadow: isToday ? '0 0 0 1px #3b82f6 inset' : undefined
+                        }}
+                      >
+                        <span style={{ fontSize: 8, fontWeight: 600, color: cellText(date) }}>
+                          {date.getDate()}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )
+          })}
         </div>
-        {/* Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${totalCols}, 1fr)`, gap: 2 }}>
-          {cells.map(({ date, inYear }, i) => (
-            <div
-              key={i}
-              onClick={() => inYear && date <= today && setSelected(date)}
-              style={{
-                aspectRatio: '1',
-                borderRadius: 2,
-                background: inYear ? cellColor(date) : 'transparent',
-                cursor: inYear && date <= today ? 'pointer' : 'default',
-                outline: selected && inYear && fmt(date) === fmt(selected) ? '1.5px solid #3b82f6' : 'none',
-                outlineOffset: 1,
-                boxShadow: inYear && date.getTime() === today.getTime() ? '0 0 0 1px #3b82f6 inset' : undefined
-              }}
-            />
-          ))}
-        </div>
+
         {/* Legend */}
         <div className="flex gap-x-3 gap-y-1.5 mt-4 flex-wrap justify-start text-[10px]">
           {[
