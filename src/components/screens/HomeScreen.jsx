@@ -82,20 +82,36 @@ export default function HomeScreen() {
       </motion.div>
 
       {/* 3D Book Wrapper */}
-      <div className="relative" style={{ perspective: 1200, width: 200, height: 260 }}>
+      <motion.div
+        animate={opened ? {
+          scale: [1, 3.5, 6.5],
+          opacity: [1, 1, 0]
+        } : {
+          scale: 1,
+          opacity: 1
+        }}
+        transition={{
+          duration: 0.9,
+          times: [0, 0.45, 1],
+          ease: "easeInOut"
+        }}
+        className="relative"
+        style={{
+          perspective: 1200,
+          width: 200,
+          height: 260,
+          transformOrigin: 'center center',
+        }}
+      >
         {/* Flipping Front Cover */}
         <motion.div
           onClick={handleBookTap}
           animate={opened ? {
-            scale: [1, 3.5, 6.5],
             rotateY: [-15, -15, -175],
             rotateX: [3, 3, 0],
-            opacity: [1, 1, 0]
           } : {
-            scale: 1,
             rotateY: -15,
             rotateX: 3,
-            opacity: 1
           }}
           transition={{
             duration: 0.9,
@@ -166,7 +182,7 @@ export default function HomeScreen() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
 
       {/* Tap hint */}
       <AnimatePresence>
