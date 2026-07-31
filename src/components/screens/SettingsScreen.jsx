@@ -1,0 +1,243 @@
+import { useState, useEffect } from 'react'
+import { useAppStore } from '../../store'
+import { TopBar, Divider, SectionTitle } from '../ui'
+import { db } from '../../db'
+
+const TYPES = [
+  { value: 'boolean',  label: 'Oui / Non' },
+  { value: 'counter',  label: 'Compteur' },
+  { value: 'duration', label: 'Durée (heures)' },
+  { value: 'pages',    label: 'Pages' },
+  { value: 'steps',    label: 'Pas' },
+]
+
+export default function SettingsScreen() {
+  const { goHome, toggleDark, dark } = useAppStore()
+  const [habits, setHabits] = useState([])
+  const [adding, setAdding] = useState(false)
+  const [form, setForm] = useState({ name: '', type: 'boolean', isNegative: false, category: 'objectifs' })
+
+  useEffect(() => { db.habits.orderBy('order').toArray().then(setHabits) }, [])
+
+  async function addHabit() {
+    if (!form.name.trim()) return
+    await db.habits.add({ ...form, isActive: true, order: habits.length + 1, createdAt: new Date() })
+    const updated = await db.habits.orderBy('order').toArray()
+    setHabits(updated)
+    setForm({ name: '', type: 'boolean', isNegative: false, category: 'objectifs' })
+    setAdding(false)
+  }
+
+  async function toggleActive(id, current) {
+    await db.habits.update(id, { isActive: !current })
+    const updated = await db.habits.orderBy('order').toArray()
+    setHabits(updated)
+  }
+
+  async function deleteHabit(id) {
+    await db.habits.delete(id)
+    const updated = await db.habits.orderBy('order').toArray()
+    setHabits(updated)
+  }
+
+  async function exportData() {
+    const [habits, entries, summaries] = await Promise.all([
+      db.habits.toArray(),
+      db.dailyEntries.toArray(),
+      db.daySummary.toArray(),
+    ])
+    const blob = new Blob([JSON.stringify({ habits, entries, summaries, exportedAt: new Date() }, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url; a.download = `frame-export-${new Date().toISOString().slice(0,10)}.json`
+    a.click(); URL.revokeObjectURL(url)
+  }
+
+  async function generateTestData() {
+    if (!confirm("Voulez-vous générer des données de test sur les 6 derniers mois ? Cela va remplacer vos entrées existantes sur cette période.")) return
+    
+    const allHabits = await db.habits.toArray()
+    const activeHabits = allHabits.filter(h => h.isActive === true || h.isActive === 1 || h.isActive === '1')
+    if (!activeHabits.length) {
+      alert("Veuillez d'abord créer des habitudes actives.")
+      return
+    }
+    
+    const today = new Date()
+    const entriesToAdd = []
+    const summariesToAdd = []
+    const moods = ['😊', '😴', '🧠', '⚡', '😔', '🧘']
+    const notes = [
+      "Bonne journée productive !",
+      "Un peu fatigué aujourd'hui.",
+      "Séance de sport intense.",
+      "Concentré sur mon projet de dev.",
+      "Soirée calme, lecture.",
+      "Difficulté à me concentrer ce matin.",
+      "Superbe journée de repos."
+    ]
+
+    for (let i = 180; i >= 0; i--) {
+      const d = new Date(today)
+      d.setDate(d.getDate() - i)
+      const dateStr = d.toISOString().slice(0, 10)
+      
+      if (Math.random() > 0.15) {
+        let total = activeHabits.length
+        let doneCount = 0
+        
+        activeHabits.forEach(h => {
+          const success = Math.random() > (h.isNegative ? 0.25 : 0.35)
+          const status = success ? 'done' : 'fail'
+          if (status === 'done') doneCount++
+          
+          let val = null
+          if (h.type === 'counter') val = Math.floor(Math.random() * 4) + 1
+          if (h.type === 'steps') val = Math.floor(Math.random() * 8000) + 4000
+          if (h.type === 'pages') val = Math.floor(Math.random() * 15) + 3
+          if (h.type === 'duration') val = Math.round((Math.random() * 4 + 1) * 10) / 10
+          
+          entriesToAdd.push({
+            date: dateStr,
+            habitId: h.id,
+            status,
+            value: val,
+            note: ''
+          })
+        })
+        
+        const score = Math.round((doneCount / total) * 100)
+        summariesToAdd.push({
+          date: dateStr,
+          rating: Math.floor(Math.random() * 4) + 2,
+          mood: moods[Math.floor(Math.random() * moods.length)],
+          notes: notes[Math.floor(Math.random() * notes.length)],
+          score
+        })
+      }
+    }
+    
+    const datesToDelete = summariesToAdd.map(s => s.date)
+    await db.dailyEntries.where('date').anyOf(datesToDelete).delete()
+    await db.daySummary.where('date').anyOf(datesToDelete).delete()
+    
+    await db.dailyEntries.bulkAdd(entriesToAdd)
+    await db.daySummary.bulkAdd(summariesToAdd)
+    
+    alert("Données de test générées avec succès !")
+    window.location.reload()
+  }
+
+  const negHabits = habits.filter(h => h.isNegative)
+  const posHabits = habits.filter(h => !h.isNegative)
+
+  function HabitRow({ h }) {
+    return (
+      <div className="flex items-center gap-3 py-2.5 border-b border-[var(--border)] last:border-0">
+        <div className="flex-1">
+          <div className="text-sm text-[var(--text-primary)]">{h.name}</div>
+          <div className="text-[10px] text-[var(--text-muted)]">{TYPES.find(t => t.value === h.type)?.label}</div>
+        </div>
+        <button
+          onClick={() => toggleActive(h.id, h.isActive)}
+          className="text-xs px-2.5 py-1 rounded-full border transition-all"
+          style={{
+            background: h.isActive ? '#EAF3DE' : 'var(--surface-1)',
+            borderColor: h.isActive ? '#97C459' : 'var(--border)',
+            color: h.isActive ? '#3B6D11' : 'var(--text-muted)',
+          }}
+        >
+          {h.isActive ? 'Actif' : 'Inactif'}
+        </button>
+        <button onClick={() => deleteHabit(h.id)} className="text-[var(--text-muted)] hover:text-red-500 text-lg leading-none">×</button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col pb-10">
+      <TopBar onBack={goHome} title="Paramètres" />
+
+      <SectionTitle>Interdits</SectionTitle>
+      <div className="px-4 bg-[var(--surface-1)] rounded-lg mx-4">
+        {negHabits.map(h => <HabitRow key={h.id} h={h} />)}
+        {negHabits.length === 0 && <div className="py-3 text-sm text-[var(--text-muted)]">Aucun interdit défini</div>}
+      </div>
+
+      <SectionTitle>Objectifs</SectionTitle>
+      <div className="px-4 bg-[var(--surface-1)] rounded-lg mx-4">
+        {posHabits.map(h => <HabitRow key={h.id} h={h} />)}
+        {posHabits.length === 0 && <div className="py-3 text-sm text-[var(--text-muted)]">Aucun objectif défini</div>}
+      </div>
+
+      {/* Add habit */}
+      <div className="px-4 mt-4">
+        {!adding ? (
+          <button
+            onClick={() => setAdding(true)}
+            className="w-full py-2.5 text-sm border border-dashed border-[var(--border)] rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+          >
+            + Ajouter une habitude
+          </button>
+        ) : (
+          <div className="p-4 bg-[var(--surface-1)] border border-[var(--border)] rounded-xl flex flex-col gap-3">
+            <input
+              value={form.name}
+              onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+              placeholder="Nom de l'habitude"
+              className="w-full border border-[var(--border)] rounded-lg px-3 py-2 text-sm bg-[var(--surface-2)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)]"
+            />
+            <select
+              value={form.type}
+              onChange={e => setForm(f => ({ ...f, type: e.target.value }))}
+              className="w-full border border-[var(--border)] rounded-lg px-3 py-2 text-sm bg-[var(--surface-2)] text-[var(--text-primary)]"
+            >
+              {TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+            </select>
+            <div className="flex gap-3">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="radio" checked={!form.isNegative} onChange={() => setForm(f => ({ ...f, isNegative: false, category: 'objectifs' }))} />
+                <span className="text-sm text-[var(--text-secondary)]">Objectif</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="radio" checked={form.isNegative} onChange={() => setForm(f => ({ ...f, isNegative: true, category: 'interdits' }))} />
+                <span className="text-sm text-[var(--text-secondary)]">Interdit</span>
+              </label>
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => setAdding(false)} className="flex-1 py-2 text-sm border border-[var(--border)] rounded-lg text-[var(--text-muted)]">Annuler</button>
+              <button onClick={addHabit} className="flex-1 py-2 text-sm bg-[var(--ink)] text-[var(--parchment)] rounded-lg">Ajouter</button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <Divider className="mt-6" />
+
+      <SectionTitle>Préférences</SectionTitle>
+      <div className="px-4 flex flex-col gap-2">
+        <div className="flex items-center justify-between py-3 border-b border-[var(--border)]">
+          <span className="text-sm text-[var(--text-primary)]">Mode sombre</span>
+          <button
+            onClick={toggleDark}
+            className="w-11 h-6 rounded-full relative transition-colors"
+            style={{ background: dark ? '#1a1a2e' : 'var(--border-strong)' }}
+          >
+            <div
+              className="absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all"
+              style={{ left: dark ? 'calc(100% - 22px)' : 2 }}
+            />
+          </button>
+        </div>
+        <button onClick={exportData} className="flex items-center justify-between py-3 w-full text-left border-b border-[var(--border)]">
+          <span className="text-sm text-[var(--text-primary)]">Exporter mes données</span>
+          <span className="text-xs text-[var(--text-muted)]">JSON ↓</span>
+        </button>
+        <button onClick={generateTestData} className="flex items-center justify-between py-3 w-full text-left">
+          <span className="text-sm text-[var(--text-primary)]">Générer des données de test</span>
+          <span className="text-xs text-[var(--text-muted)]">Mode démo ⚙</span>
+        </button>
+      </div>
+    </div>
+  )
+}
