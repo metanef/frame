@@ -6,7 +6,7 @@
 
   **A minimalist, aesthetic, and highly interactive personal logging and habit tracking application.**
 
-  [![v0.6](https://img.shields.io/badge/VERSION-0.6_STABLE-8b5cf6?style=for-the-badge)](https://github.com/metanef/frame)
+  [![v0.7](https://img.shields.io/badge/VERSION-0.7_STABLE-8b5cf6?style=for-the-badge)](https://github.com/metanef/frame)
 
   <br />
 
@@ -89,6 +89,8 @@ Open `http://localhost:5173` in your browser.
 - [x] **Streak Calculation**: Streamlined streak and success rate computations to respect unlogged days correctly.
 - [x] **Tactile Animation & Rendering Polish**: Eliminated text pixelation during zooms using 2x super-resolution assets/scales, and eliminated the "fade to black" transition blink by rendering the calendar screen in the background under a fading backdrop overlay.
 - [x] **Persistent Navigation & Global Stats**: Added the Statistics shortcut button at the bottom of all calendar views (Year, Month, Week) and implemented smart back-navigation history.
+- [x] **TopBar Layout Cleanup**: Removed the redundant three-dots menu button on Statistics, Settings, and Day screens while maintaining centered titles using invisible spacers.
+- [x] **Home Screen Navigation**: Repositioned the habit streak pill to the top-left and introduced a settings gear button in the top-right for intuitive access.
 
 ### 🔄 Planned
 
