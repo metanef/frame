@@ -272,7 +272,7 @@ export default function CalendarScreen() {
                   isFutureMonth ? 'opacity-25 cursor-default' : 'cursor-pointer hover:opacity-80 active:scale-98'
                 }`}
               >
-                <div className="text-[11px] font-semibold text-[var(--text-secondary)] mb-2 text-left uppercase tracking-wider pl-0.5">
+                <div className="text-[11px] font-semibold text-[var(--text-secondary)] mb-2 text-center uppercase tracking-wider">
                   {MONTHS[m]}
                 </div>
                 <div className="grid grid-cols-7 gap-[2px] pointer-events-none">
