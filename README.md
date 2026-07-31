@@ -87,3 +87,6 @@ Open `http://localhost:5173` in your browser.
 - [ ] **PWA Offline Support**: Add service workers (`vite-plugin-pwa`) for offline-first capabilities.
 - [ ] **Local Backups**: Implement import/export system for database backups.
 - [ ] **Desktop Widget**: Widgets/Shortcuts for quicker log access.
+- [ ] **Notifications**: Reminders to log habits.
+- [ ] **Data Import**: Import my data in json formats : it should automatically create the habits in the database.
+- [ ] **Add stats on the day card**, same as in the dashboard stats card

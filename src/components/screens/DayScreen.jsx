@@ -221,7 +221,7 @@ export default function DayScreen() {
   const dateStr = `${date.getDate()} ${MONTHS[date.getMonth()]} ${date.getFullYear()}`
 
   return (
-    <div className="flex flex-col pb-8 bg-[var(--background)] min-h-screen">
+    <div className="flex flex-col pb-8 bg-[var(--surface-0)] min-h-screen">
       <TopBar onBack={() => openCalendar(calView || 'month')} title={dateStr} />
 
       {/* Day header */}

@@ -450,7 +450,7 @@ export default function CalendarScreen() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen pb-6 bg-[var(--background)]">
+    <div className="flex flex-col min-h-screen pb-6 bg-[var(--surface-0)]">
       <TopBar onBack={goHome} title="Frame" onRight={() => setScreen('settings')} rightIcon="settings" />
       <ZoomTabs active={calView} onChange={(v) => { setCalView(v); setSelected(null) }} tabs={CAL_TABS} />
 
