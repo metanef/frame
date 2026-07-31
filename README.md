@@ -77,19 +77,27 @@ Open `http://localhost:5173` in your browser.
 ## 🗺️ Roadmap & TODO
 
 ### ✅ Done
+
+#### 🚀 Major Updates
 - [x] **English Translation (i18n)**: Fully translated UI screens (Home, Calendar, Day, Stats, Settings) and seeded database habits to English.
 - [x] **Year View Overhaul**: Replaced the 53-week contribution graph with a responsive, clickable 12 mini-months layout optimized for mobile screens.
-- [x] **Neutral Color for Empty Days**: Days with no logged entries are rendered as neutral gray in calendar grids rather than counted as failures (red).
-- [x] **Streak Calculation**: Streamlined streak and success rate computations to respect unlogged days correctly.
 - [x] **Gamification System**: Local-first badges triggers and experience progression logic.
 - [x] **Realistic Book Opening Animation**: Overhauled the 3D book cover transition with nested motion containers to zoom full-screen first and then rotate open seamlessly like a real journal page.
+
+#### 🛠️ Minor Updates & Polish
+- [x] **Neutral Color for Empty Days**: Days with no logged entries are rendered as neutral gray in calendar grids rather than counted as failures (red).
+- [x] **Streak Calculation**: Streamlined streak and success rate computations to respect unlogged days correctly.
 - [x] **Tactile Animation & Rendering Polish**: Eliminated text pixelation during zooms using 2x super-resolution assets/scales, and eliminated the "fade to black" transition blink by rendering the calendar screen in the background under a fading backdrop overlay.
+- [x] **Persistent Navigation & Global Stats**: Added the Statistics shortcut button at the bottom of all calendar views (Year, Month, Week) and implemented smart back-navigation history.
 
 ### 🔄 Planned
+
+#### 🚀 Major Updates
 - [ ] **PWA Offline Support**: Add service workers (`vite-plugin-pwa`) for offline-first capabilities.
-- [ ] **Local Backups**: Implement import/export system for database backups.
+- [ ] **Data Import & Backups**: Implement import/export system for database backups and JSON data seeding.
 - [ ] **Desktop Widget**: Widgets/Shortcuts for quicker log access.
+
+#### 🛠️ Minor Updates & Polish
 - [ ] **Notifications**: Reminders to log habits.
-- [ ] **Data Import**: Import my data in json formats : it should automatically create the habits in the database.
-- [ ] **Add stats on the day card**, same as in the dashboard stats card
+- [ ] **Day Card Statistics**: Add the habit stats summary card on the daily log details page.
 
