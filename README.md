@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="public/favicon.svg" width="110" height="110" alt="Frame Logo" />
+  <img src="public/logo.svg" width="110" height="110" alt="Frame Logo" />
 
   # Frame 📖
 
