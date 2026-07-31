@@ -377,6 +377,7 @@ export default function CalendarScreen() {
           {[
             ['var(--surface-1)', 'Empty'],
             ['#97C459', 'Partial'],
+            ['#3B6D11', 'Good'],
             ['#27500A', 'Success ≥80%'],
             ['#F09595', 'Failed'],
             ['#1e293b', "Today"]

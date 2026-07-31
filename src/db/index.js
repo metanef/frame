@@ -87,8 +87,12 @@ export async function saveSummary(date, data) {
 }
 
 export async function getDayScore(date) {
-  const { habits, entryMap } = await getDayEntries(date)
+  const { habits, entryMap, summary } = await getDayEntries(date)
   if (!habits.length) return null
+  
+  const hasEntries = Object.keys(entryMap).length > 0
+  if (!hasEntries && !summary) return null
+
   const done = habits.filter(h => entryMap[h.id]?.status === 'done').length
   return Math.round((done / habits.length) * 100)
 }

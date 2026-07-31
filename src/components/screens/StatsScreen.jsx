@@ -18,7 +18,7 @@ export default function StatsScreen() {
     try {
       setError(null)
       const today = new Date(); today.setHours(0,0,0,0)
-      const days = period === 'Semaine' ? 7 : period === 'Mois' ? 30 : period === 'Année' ? 365 : 730
+      const days = period === 'Week' ? 7 : period === 'Month' ? 30 : period === 'Year' ? 365 : 730
 
       const allHabits = await db.habits.toArray()
       const habits = allHabits.filter(h => h.isActive === true || h.isActive === 1 || h.isActive === '1')
