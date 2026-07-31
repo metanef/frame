@@ -48,16 +48,6 @@ export default function HomeScreen() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen relative pb-24 overflow-hidden bg-[var(--surface-0)]">
-      {/* Background ruled lines */}
-      <motion.div
-        animate={{ opacity: opened ? 0 : 0.4 }}
-        transition={{ duration: 0.35 }}
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 39px, var(--border) 39px, var(--border) 40px)',
-        }}
-      />
-
       {/* Header */}
       <motion.div
         animate={{ opacity: opened ? 0 : 1 }}
@@ -145,10 +135,6 @@ export default function HomeScreen() {
               overflow: 'hidden',
             }}>
               {/* texture */}
-              <div style={{
-                position: 'absolute', inset: 0,
-                backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 18px, rgba(255,255,255,0.015) 18px, rgba(255,255,255,0.015) 19px)',
-              }} />
               <div style={{ fontSize: 28, fontWeight: 500, color: '#e8e4d9', letterSpacing: '0.12em', textTransform: 'uppercase', zIndex: 1 }}>Frame</div>
               <div style={{ width: 60, height: 1, background: 'rgba(232,228,217,0.35)', margin: '10px 0', zIndex: 1 }} />
               <div style={{ fontSize: 11, color: 'rgba(232,228,217,0.5)', letterSpacing: '0.15em', zIndex: 1 }}>{today.getFullYear()}</div>
@@ -209,7 +195,7 @@ export default function HomeScreen() {
       >
         <div className="w-14 h-14 rounded-full bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-center active:scale-95 transition-transform">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--text-secondary)]">
-            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+            <line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" />
           </svg>
         </div>
         <span className="text-[11px] text-[var(--text-muted)] tracking-widest uppercase">Statistics</span>
