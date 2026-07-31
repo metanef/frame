@@ -6,7 +6,7 @@
 
   **A minimalist, aesthetic, and highly interactive personal logging and habit tracking application.**
 
-  [![v0.5](https://img.shields.io/badge/VERSION-0.5_STABLE-8b5cf6?style=for-the-badge)](https://github.com/metanef/frame)
+  [![v0.6](https://img.shields.io/badge/VERSION-0.6_STABLE-8b5cf6?style=for-the-badge)](https://github.com/metanef/frame)
 
   <br />
 
@@ -83,6 +83,7 @@ Open `http://localhost:5173` in your browser.
 - [x] **Streak Calculation**: Streamlined streak and success rate computations to respect unlogged days correctly.
 - [x] **Gamification System**: Local-first badges triggers and experience progression logic.
 - [x] **Realistic Book Opening Animation**: Overhauled the 3D book cover transition with nested motion containers to zoom full-screen first and then rotate open seamlessly like a real journal page.
+- [x] **Tactile Animation & Rendering Polish**: Eliminated text pixelation during zooms using 2x super-resolution assets/scales, and eliminated the "fade to black" transition blink by rendering the calendar screen in the background under a fading backdrop overlay.
 
 ### 🔄 Planned
 - [ ] **PWA Offline Support**: Add service workers (`vite-plugin-pwa`) for offline-first capabilities.
