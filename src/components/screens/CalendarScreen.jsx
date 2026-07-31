@@ -258,14 +258,19 @@ export default function CalendarScreen() {
               monthCells.push({ date: new Date(year, m, day) })
             }
 
+            const isFutureMonth = (year > today.getFullYear()) || (year === today.getFullYear() && m > today.getMonth())
+
             return (
               <div
                 key={m}
                 onClick={() => {
+                  if (isFutureMonth) return
                   setRefDate(new Date(year, m, 1))
                   setCalView('month')
                 }}
-                className="cursor-pointer hover:opacity-80 active:scale-98 transition-all flex flex-col"
+                className={`transition-all flex flex-col ${
+                  isFutureMonth ? 'opacity-25 cursor-default' : 'cursor-pointer hover:opacity-80 active:scale-98'
+                }`}
               >
                 <div className="text-[11px] font-semibold text-[var(--text-secondary)] mb-2 text-left uppercase tracking-wider pl-0.5">
                   {MONTHS[m]}
