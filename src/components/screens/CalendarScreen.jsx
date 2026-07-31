@@ -259,46 +259,35 @@ export default function CalendarScreen() {
             }
 
             return (
-              <div key={m} className="bg-[var(--surface-2)] border border-[var(--border)] rounded-xl p-2.5">
-                <div className="text-[11px] font-semibold text-[var(--text-primary)] mb-1.5 text-center">
+              <div
+                key={m}
+                onClick={() => {
+                  setRefDate(new Date(year, m, 1))
+                  setCalView('month')
+                }}
+                className="cursor-pointer hover:opacity-80 active:scale-98 transition-all flex flex-col"
+              >
+                <div className="text-[11px] font-semibold text-[var(--text-secondary)] mb-2 text-left uppercase tracking-wider pl-0.5">
                   {MONTHS[m]}
                 </div>
-                <div className="grid grid-cols-7 gap-[2px] text-center mb-1">
-                  {['M','T','W','T','F','S','S'].map((d, i) => (
-                    <div key={i} className="text-[8px] font-semibold text-[var(--text-muted)]">{d}</div>
-                  ))}
-                </div>
-                <div className="grid grid-cols-7 gap-[3px]">
+                <div className="grid grid-cols-7 gap-[2px] pointer-events-none">
                   {monthCells.map((cell, idx) => {
                     if (cell.empty) {
                       return <div key={`empty-${idx}`} className="aspect-square" />
                     }
                     const { date } = cell
                     const isToday = fmt(date) === fmt(today)
-                    const isFuture = date > today
-                    const isSelected = selected && fmt(date) === fmt(selected)
 
                     return (
                       <div
                         key={date.getDate()}
-                        onClick={() => !isFuture && setSelected(date)}
                         style={{
                           aspectRatio: '1',
-                          borderRadius: 4,
+                          borderRadius: 1.5,
                           background: cellColor(date),
-                          cursor: isFuture ? 'default' : 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          outline: isSelected ? '1.5px solid #3b82f6' : undefined,
-                          outlineOffset: 0.5,
                           boxShadow: isToday ? '0 0 0 1px #3b82f6 inset' : undefined
                         }}
-                      >
-                        <span style={{ fontSize: 8, fontWeight: 600, color: cellText(date) }}>
-                          {date.getDate()}
-                        </span>
-                      </div>
+                      />
                     )
                   })}
                 </div>
@@ -330,7 +319,6 @@ export default function CalendarScreen() {
             </div>
           ))}
         </div>
-        <SelectedDetailsCard />
       </div>
     )
   }
