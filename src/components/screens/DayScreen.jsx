@@ -55,13 +55,13 @@ function HabitCard({ habit, entry, onChange }) {
   let leftBorder = isNeg ? '#E24B4A' : '#3B6D11'
 
   if (done) {
-    cardBg = '#132517'
-    cardBorder = '#1d3d22'
+    cardBg = 'var(--card-done-bg)'
+    cardBorder = 'var(--card-done-border)'
     leftBorder = '#3B6D11'
   }
   if (fail) {
-    cardBg = '#271414'
-    cardBorder = '#5c2020'
+    cardBg = 'var(--card-fail-bg)'
+    cardBorder = 'var(--card-fail-border)'
     leftBorder = '#E24B4A'
   }
 

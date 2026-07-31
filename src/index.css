@@ -4,18 +4,19 @@
 @tailwind utilities;
 
 :root {
-  --background: #09090b;
-  --surface-0: #09090b;
-  --surface-1: #121215;
-  --surface-2: #18181b;
-  --border: #222226;
-  --border-strong: #3f3f46;
-  --text-primary: #ffffff;
-  --text-secondary: #a1a1aa;
-  --text-muted: #52525b;
+  /* Light Mode (default) */
+  --background: #f4f4f5;      /* zinc-100 */
+  --surface-0: #ffffff;
+  --surface-1: #f4f4f5;      /* zinc-100 */
+  --surface-2: #e4e4e7;      /* zinc-200 */
+  --border: #e4e4e7;         /* zinc-200 */
+  --border-strong: #a1a1aa;  /* zinc-400 */
+  --text-primary: #09090b;   /* zinc-950 */
+  --text-secondary: #52525b; /* zinc-600 */
+  --text-muted: #a1a1aa;     /* zinc-400 */
 
-  --ink: #ffffff;
-  --parchment: #09090b;
+  --ink: #09090b;
+  --parchment: #ffffff;
 
   --success: #3B6D11;
   --success-mid: #97C459;
@@ -24,9 +25,15 @@
   --danger-mid: #F09595;
   --danger-light: #501515;
   --warn: #E67E22;
+
+  --card-done-bg: #f0fdf4;     /* soft green */
+  --card-done-border: #bbf7d0; /* light green border */
+  --card-fail-bg: #fef2f2;     /* soft red */
+  --card-fail-border: #fecaca; /* light red border */
 }
 
 .dark {
+  /* Dark Mode overrides */
   --background: #09090b;
   --surface-0: #09090b;
   --surface-1: #121215;
@@ -39,18 +46,25 @@
 
   --ink: #ffffff;
   --parchment: #09090b;
+
+  --card-done-bg: #132517;
+  --card-done-border: #1d3d22;
+  --card-fail-bg: #271414;
+  --card-fail-border: #5c2020;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body, #root { height: 100%; margin: 0; }
+
 body {
   font-family: 'Inter', system-ui, sans-serif;
-  background: #040405;
+  background: var(--background);
+  color: var(--text-primary);
   display: flex;
   justify-content: center;
   align-items: flex-start;
   min-height: 100%;
-  color: var(--text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 #root {
@@ -59,6 +73,11 @@ body {
   background: var(--surface-0);
   min-height: 100vh;
   position: relative;
+  box-shadow: 0 0 50px rgba(0,0,0,0.15);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dark #root {
   box-shadow: 0 0 50px rgba(0,0,0,0.9);
 }
 

@@ -1,7 +1,15 @@
 import { create } from 'zustand'
 
+const initialDark = typeof localStorage !== 'undefined'
+  ? localStorage.getItem('theme') !== 'light'
+  : true
+
 if (typeof document !== 'undefined') {
-  document.documentElement.classList.add('dark')
+  if (initialDark) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
 }
 
 export const useAppStore = create((set) => ({
@@ -20,9 +28,12 @@ export const useAppStore = create((set) => ({
   goHome: () => set({ screen: 'home' }),
 
   // Theme
-  dark: true,
+  dark: initialDark,
   toggleDark: () => set((s) => {
     const next = !s.dark
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('theme', next ? 'dark' : 'light')
+    }
     document.documentElement.classList.toggle('dark', next)
     return { dark: next }
   }),

@@ -221,7 +221,7 @@ export default function SettingsScreen() {
           <button
             onClick={toggleDark}
             className="w-11 h-6 rounded-full relative transition-colors"
-            style={{ background: dark ? '#1a1a2e' : 'var(--border-strong)' }}
+            style={{ background: dark ? '#863bff' : 'var(--border-strong)' }}
           >
             <div
               className="absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all"
