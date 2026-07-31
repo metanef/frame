@@ -42,7 +42,7 @@ export default function HomeScreen() {
   function handleBookTap() {
     if (!opened) {
       setOpened(true)
-      setTimeout(() => openCalendar('month'), 50)
+      setTimeout(() => openCalendar('month'), 450)
     }
   }
 
@@ -86,17 +86,21 @@ export default function HomeScreen() {
         {/* Flipping Front Cover */}
         <motion.div
           onClick={handleBookTap}
-          animate={{
-            rotateY: opened ? -175 : -15,
-            rotateX: opened ? 0 : 3,
-            scale: opened ? 3.5 : 1,
-            opacity: opened ? 0 : 1
+          animate={opened ? {
+            scale: [1, 3.5, 6.5],
+            rotateY: [-15, -15, -175],
+            rotateX: [3, 3, 0],
+            opacity: [1, 1, 0]
+          } : {
+            scale: 1,
+            rotateY: -15,
+            rotateX: 3,
+            opacity: 1
           }}
           transition={{
-            rotateY: { duration: 0.65, ease: [0.25, 1, 0.5, 1] },
-            rotateX: { duration: 0.65, ease: [0.25, 1, 0.5, 1] },
-            scale: { duration: 0.65, ease: [0.25, 1, 0.5, 1] },
-            opacity: { duration: 0.55, delay: 0.1, ease: 'easeOut' }
+            duration: 0.9,
+            times: [0, 0.45, 1],
+            ease: "easeInOut"
           }}
           style={{
             transformStyle: 'preserve-3d',
