@@ -6,7 +6,7 @@
 
   **A minimalist, aesthetic, and highly interactive personal logging and habit tracking application.**
 
-  [![v0.4](https://img.shields.io/badge/VERSION-0.4_STABLE-8b5cf6?style=for-the-badge)](https://github.com/metanef/frame)
+  [![v0.5](https://img.shields.io/badge/VERSION-0.5_STABLE-8b5cf6?style=for-the-badge)](https://github.com/metanef/frame)
 
   <br />
 
@@ -82,6 +82,7 @@ Open `http://localhost:5173` in your browser.
 - [x] **Neutral Color for Empty Days**: Days with no logged entries are rendered as neutral gray in calendar grids rather than counted as failures (red).
 - [x] **Streak Calculation**: Streamlined streak and success rate computations to respect unlogged days correctly.
 - [x] **Gamification System**: Local-first badges triggers and experience progression logic.
+- [x] **Realistic Book Opening Animation**: Overhauled the 3D book cover transition with nested motion containers to zoom full-screen first and then rotate open seamlessly like a real journal page.
 
 ### 🔄 Planned
 - [ ] **PWA Offline Support**: Add service workers (`vite-plugin-pwa`) for offline-first capabilities.
@@ -90,5 +91,4 @@ Open `http://localhost:5173` in your browser.
 - [ ] **Notifications**: Reminders to log habits.
 - [ ] **Data Import**: Import my data in json formats : it should automatically create the habits in the database.
 - [ ] **Add stats on the day card**, same as in the dashboard stats card
-- [ ] **Change booknote animation**: it should open like a real book : more smooth and fluid animation and show the  month view smoothly without sliding it in the view.
 
