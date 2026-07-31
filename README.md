@@ -95,7 +95,6 @@ Open `http://localhost:5173` in your browser.
 #### 🚀 Major Updates
 - [ ] **PWA Offline Support**: Add service workers (`vite-plugin-pwa`) for offline-first capabilities.
 - [ ] **Data Import & Backups**: Implement import/export system for database backups and JSON data seeding.
-- [ ] **Desktop Widget**: Widgets/Shortcuts for quicker log access.
 
 #### 🛠️ Minor Updates & Polish
 - [ ] **Notifications**: Reminders to log habits.
