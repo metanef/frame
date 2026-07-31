@@ -57,10 +57,12 @@ export default function App() {
                   position: 'absolute',
                   inset: 0,
                   zIndex: 50,
-                  backgroundColor: 'var(--surface-0)',
+                  pointerEvents: 'none',
                 }}
               >
-                <HomeScreen />
+                <div style={{ width: '100%', height: '100%', pointerEvents: 'auto' }}>
+                  <HomeScreen />
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

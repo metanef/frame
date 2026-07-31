@@ -47,12 +47,21 @@ export default function HomeScreen() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen relative pb-24 overflow-hidden bg-[var(--surface-0)]">
+    <div className="flex flex-col items-center justify-center min-h-screen relative pb-24 overflow-hidden">
+      {/* Background backdrop that fades out to reveal the calendar behind */}
+      <motion.div
+        animate={{ opacity: opened ? 0 : 1 }}
+        transition={{ duration: 0.5, ease: 'easeInOut' }}
+        className="absolute inset-0 bg-[var(--surface-0)] pointer-events-none"
+        style={{ zIndex: 1 }}
+      />
+
       {/* Header */}
       <motion.div
         animate={{ opacity: opened ? 0 : 1 }}
         transition={{ duration: 0.35 }}
         className="absolute top-10 left-0 right-0 text-center"
+        style={{ zIndex: 10 }}
       >
         <div className="text-xs font-semibold text-[var(--text-muted)] tracking-[0.2em] uppercase">Frame</div>
         <div className="text-[11px] text-[var(--text-muted)] mt-1">
@@ -65,6 +74,7 @@ export default function HomeScreen() {
         animate={{ opacity: opened ? 0 : 1 }}
         transition={{ duration: 0.35 }}
         className="absolute top-9 right-4 flex items-center gap-1 bg-[var(--surface-2)] border border-[var(--border)] rounded-full px-3 py-1.5"
+        style={{ zIndex: 10 }}
       >
         <span className="text-sm">🔥</span>
         <span className="text-sm font-medium text-[var(--text-primary)]">{streak}</span>
@@ -90,6 +100,7 @@ export default function HomeScreen() {
           width: 400,
           height: 520,
           transformOrigin: 'center center',
+          zIndex: 20,
         }}
       >
         {/* Flipping Front Cover */}
@@ -103,8 +114,8 @@ export default function HomeScreen() {
             rotateX: 3,
           }}
           transition={{
-            rotateY: { duration: 0.6, delay: 0.25, ease: [0.25, 1, 0.5, 1] },
-            rotateX: { duration: 0.6, delay: 0.25, ease: [0.25, 1, 0.5, 1] },
+            rotateY: { duration: 1.5, delay: 0.1, ease: [0.25, 1, 0.5, 1] },
+            rotateX: { duration: 1.5, delay: 0.1, ease: [0.25, 1, 0.5, 1] },
           }}
           style={{
             transformStyle: 'preserve-3d',
@@ -175,6 +186,7 @@ export default function HomeScreen() {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="flex flex-col items-center gap-2 mt-10"
+            style={{ zIndex: 10 }}
           >
             <motion.div
               animate={{ opacity: [0.3, 1, 0.3], scale: [1, 1.4, 1] }}
@@ -192,6 +204,7 @@ export default function HomeScreen() {
         animate={{ opacity: opened ? 0 : 1 }}
         transition={{ duration: 0.35 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5"
+        style={{ zIndex: 10 }}
       >
         <div className="w-14 h-14 rounded-full bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-center active:scale-95 transition-transform">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--text-secondary)]">
