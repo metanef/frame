@@ -42,7 +42,7 @@ export default function HomeScreen() {
   function handleBookTap() {
     if (!opened) {
       setOpened(true)
-      setTimeout(() => openCalendar('month'), 750)
+      setTimeout(() => openCalendar('month'), 50)
     }
   }
 
@@ -83,56 +83,20 @@ export default function HomeScreen() {
 
       {/* 3D Book Wrapper */}
       <div className="relative" style={{ perspective: 1200, width: 200, height: 260 }}>
-        {/* Stationary Page (revealed when cover opens) */}
-        <motion.div
-          animate={opened ? { scale: 3.8, opacity: 0 } : { scale: 1, opacity: 1 }}
-          transition={{
-            duration: 0.55,
-            delay: 0.45,
-            ease: [0.4, 0, 0.2, 1]
-          }}
-          style={{
-            position: 'absolute', inset: 0,
-            background: 'var(--paper-bg)',
-            borderRadius: '3px 10px 10px 3px',
-            boxShadow: 'inset 4px 0 10px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.15)',
-            borderLeft: '1px solid rgba(0,0,0,0.08)',
-            display: 'flex', flexDirection: 'column',
-            alignItems: 'center', justifyItems: 'center',
-            justifyContent: 'center',
-            pointerEvents: 'none',
-            transformOrigin: 'center center',
-          }}
-        >
-          {/* Subtle lined pattern on pages */}
-          <div style={{
-            position: 'absolute', inset: 0,
-            backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 15px, var(--paper-lines) 15px, var(--paper-lines) 16px)',
-            opacity: 0.8,
-            borderRadius: '3px 10px 10px 3px',
-          }} />
-          {/* Grid preview inside */}
-          <div className="flex flex-col items-center gap-1.5 opacity-30 scale-75">
-            <div className="grid grid-cols-4 gap-1">
-              {Array.from({ length: 16 }).map((_, i) => (
-                <div key={i} className="w-3.5 h-3.5 rounded" style={{ background: 'var(--paper-preview-ink)', opacity: i % 3 === 0 ? 0.8 : 0.2 }} />
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
         {/* Flipping Front Cover */}
         <motion.div
           onClick={handleBookTap}
           animate={{
             rotateY: opened ? -175 : -15,
             rotateX: opened ? 0 : 3,
+            scale: opened ? 3.5 : 1,
             opacity: opened ? 0 : 1
           }}
           transition={{
-            rotateY: { duration: 0.45, ease: [0.25, 1, 0.5, 1] },
-            rotateX: { duration: 0.45, ease: [0.25, 1, 0.5, 1] },
-            opacity: { duration: 0.1, delay: 0.35, ease: 'linear' }
+            rotateY: { duration: 0.65, ease: [0.25, 1, 0.5, 1] },
+            rotateX: { duration: 0.65, ease: [0.25, 1, 0.5, 1] },
+            scale: { duration: 0.65, ease: [0.25, 1, 0.5, 1] },
+            opacity: { duration: 0.55, delay: 0.1, ease: 'easeOut' }
           }}
           style={{
             transformStyle: 'preserve-3d',

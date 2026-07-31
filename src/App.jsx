@@ -33,7 +33,7 @@ export default function App() {
   const isFade = screen === 'home' || screen === 'calendar'
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="popLayout">
       <motion.div
         key={screen}
         variants={isFade ? fadeVariants : slideVariants}
@@ -42,10 +42,10 @@ export default function App() {
         exit="exit"
         transition={
           isFade 
-            ? { duration: 0.45, ease: 'easeOut' }
+            ? { duration: 0.65, ease: 'easeInOut' }
             : { duration: 0.25, ease: [0.4, 0, 0.2, 1] }
         }
-        style={{ minHeight: '100vh', overflowY: 'auto' }}
+        style={{ minHeight: '100vh', width: '100%', overflowY: 'auto' }}
       >
         <Screen />
       </motion.div>
