@@ -42,7 +42,7 @@ export default function HomeScreen() {
   function handleBookTap() {
     if (!opened) {
       setOpened(true)
-      setTimeout(() => openCalendar('month'), 450)
+      setTimeout(() => openCalendar('month'), 350)
     }
   }
 
@@ -84,16 +84,15 @@ export default function HomeScreen() {
       {/* 3D Book Wrapper */}
       <motion.div
         animate={opened ? {
-          scale: [1, 3.5, 6.5],
-          opacity: [1, 1, 0]
+          scale: 6.5,
+          opacity: 0
         } : {
           scale: 1,
           opacity: 1
         }}
         transition={{
-          duration: 0.9,
-          times: [0, 0.45, 1],
-          ease: "easeInOut"
+          scale: { duration: 0.85, ease: [0.25, 1, 0.5, 1] },
+          opacity: { duration: 0.55, delay: 0.3, ease: 'easeOut' }
         }}
         className="relative"
         style={{
@@ -107,16 +106,15 @@ export default function HomeScreen() {
         <motion.div
           onClick={handleBookTap}
           animate={opened ? {
-            rotateY: [-15, -15, -175],
-            rotateX: [3, 3, 0],
+            rotateY: -175,
+            rotateX: 0,
           } : {
             rotateY: -15,
             rotateX: 3,
           }}
           transition={{
-            duration: 0.9,
-            times: [0, 0.45, 1],
-            ease: "easeInOut"
+            rotateY: { duration: 0.6, delay: 0.25, ease: [0.25, 1, 0.5, 1] },
+            rotateX: { duration: 0.6, delay: 0.25, ease: [0.25, 1, 0.5, 1] },
           }}
           style={{
             transformStyle: 'preserve-3d',
