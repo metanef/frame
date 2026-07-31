@@ -30,6 +30,10 @@
   --card-done-border: #bbf7d0; /* light green border */
   --card-fail-bg: #fef2f2;     /* soft red */
   --card-fail-border: #fecaca; /* light red border */
+
+  --paper-bg: #fcfaf2;
+  --paper-lines: rgba(0, 0, 0, 0.035);
+  --paper-preview-ink: #3b6d11;
 }
 
 .dark {
@@ -51,6 +55,10 @@
   --card-done-border: #1d3d22;
   --card-fail-bg: #271414;
   --card-fail-border: #5c2020;
+
+  --paper-bg: #18181b;
+  --paper-lines: rgba(255, 255, 255, 0.035);
+  --paper-preview-ink: #97c459;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }

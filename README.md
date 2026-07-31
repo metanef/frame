@@ -90,3 +90,5 @@ Open `http://localhost:5173` in your browser.
 - [ ] **Notifications**: Reminders to log habits.
 - [ ] **Data Import**: Import my data in json formats : it should automatically create the habits in the database.
 - [ ] **Add stats on the day card**, same as in the dashboard stats card
+- [ ] **Change booknote animation**: it should open like a real book : more smooth and fluid animation and show the  month view smoothly without sliding it in the view.
+

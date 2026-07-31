@@ -14,25 +14,37 @@ const SCREENS = {
   settings: SettingsScreen,
 }
 
+const fadeVariants = {
+  initial: { opacity: 0, x: 0, scale: 1 },
+  animate: { opacity: 1, x: 0, scale: 1 },
+  exit:    { opacity: 0, x: 0, scale: 1 },
+}
+
 const slideVariants = {
-  initial: { x: '100%', opacity: 0 },
-  animate: { x: 0,      opacity: 1 },
-  exit:    { x: '-30%', opacity: 0 },
+  initial: { x: '100%', opacity: 0, scale: 0.98 },
+  animate: { x: 0,      opacity: 1, scale: 1 },
+  exit:    { x: '-30%', opacity: 0, scale: 0.98 },
 }
 
 export default function App() {
   const { screen } = useAppStore()
   const Screen = SCREENS[screen] ?? HomeScreen
 
+  const isFade = screen === 'home' || screen === 'calendar'
+
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={screen}
-        variants={slideVariants}
+        variants={isFade ? fadeVariants : slideVariants}
         initial="initial"
         animate="animate"
         exit="exit"
-        transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+        transition={
+          isFade 
+            ? { duration: 0.45, ease: 'easeOut' }
+            : { duration: 0.25, ease: [0.4, 0, 0.2, 1] }
+        }
         style={{ minHeight: '100vh', overflowY: 'auto' }}
       >
         <Screen />
