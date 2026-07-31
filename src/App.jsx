@@ -28,27 +28,59 @@ const slideVariants = {
 
 export default function App() {
   const { screen } = useAppStore()
-  const Screen = SCREENS[screen] ?? HomeScreen
 
-  const isFade = screen === 'home' || screen === 'calendar'
+  const isBookFlow = screen === 'home' || screen === 'calendar'
 
   return (
     <AnimatePresence mode="popLayout">
-      <motion.div
-        key={screen}
-        variants={isFade ? fadeVariants : slideVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        transition={
-          isFade 
-            ? { duration: 0.65, ease: 'easeInOut' }
-            : { duration: 0.25, ease: [0.4, 0, 0.2, 1] }
-        }
-        style={{ minHeight: '100vh', width: '100%', overflowY: 'auto' }}
-      >
-        <Screen />
-      </motion.div>
+      {isBookFlow ? (
+        <motion.div
+          key="book-flow"
+          variants={fadeVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
+          style={{ minHeight: '100vh', width: '100%', position: 'relative', overflowX: 'hidden' }}
+        >
+          {/* Calendar is rendered in the background */}
+          <CalendarScreen />
+
+          {/* Home screen cover is rendered as a clean absolute overlay on top */}
+          <AnimatePresence>
+            {screen === 'home' && (
+              <motion.div
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5, ease: 'easeInOut' }}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  zIndex: 50,
+                  backgroundColor: 'var(--surface-0)',
+                }}
+              >
+                <HomeScreen />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      ) : (
+        <motion.div
+          key={screen}
+          variants={slideVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+          style={{ minHeight: '100vh', width: '100%', overflowY: 'auto' }}
+        >
+          {(() => {
+            const Component = SCREENS[screen] ?? HomeScreen
+            return <Component />
+          })()}
+        </motion.div>
+      )}
     </AnimatePresence>
   )
 }
