@@ -74,10 +74,10 @@ export default function HomeScreen() {
       {/* 3D Book Wrapper */}
       <motion.div
         animate={opened ? {
-          scale: 6.5,
+          scale: 3.25,
           opacity: 0
         } : {
-          scale: 1,
+          scale: 0.5,
           opacity: 1
         }}
         transition={{
@@ -86,9 +86,9 @@ export default function HomeScreen() {
         }}
         className="relative"
         style={{
-          perspective: 1200,
-          width: 200,
-          height: 260,
+          perspective: 2400,
+          width: 400,
+          height: 520,
           transformOrigin: 'center center',
         }}
       >
@@ -118,7 +118,7 @@ export default function HomeScreen() {
         >
           {/* Float animation wrapper (only when closed) */}
           <motion.div
-            animate={opened ? { y: 0 } : { y: [0, -6, 0] }}
+            animate={opened ? { y: 0 } : { y: [0, -12, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
             style={{ width: '100%', height: '100%', transformStyle: 'preserve-3d' }}
           >
@@ -126,29 +126,29 @@ export default function HomeScreen() {
             <div style={{
               position: 'absolute', inset: 0,
               background: '#1a1a2e',
-              borderRadius: '3px 10px 10px 3px',
+              borderRadius: '6px 20px 20px 6px',
               backfaceVisibility: 'hidden',
-              borderLeft: '8px solid #111128',
-              boxShadow: '-2px 4px 16px rgba(0,0,0,0.25), inset -2px 0 6px rgba(0,0,0,0.2)',
+              borderLeft: '16px solid #111128',
+              boxShadow: '-4px 8px 32px rgba(0,0,0,0.25), inset -4px 0 12px rgba(0,0,0,0.2)',
               display: 'flex', flexDirection: 'column',
               alignItems: 'center', justifyContent: 'center',
               overflow: 'hidden',
             }}>
               {/* texture */}
-              <div style={{ fontSize: 28, fontWeight: 500, color: '#e8e4d9', letterSpacing: '0.12em', textTransform: 'uppercase', zIndex: 1 }}>Frame</div>
-              <div style={{ width: 60, height: 1, background: 'rgba(232,228,217,0.35)', margin: '10px 0', zIndex: 1 }} />
-              <div style={{ fontSize: 11, color: 'rgba(232,228,217,0.5)', letterSpacing: '0.15em', zIndex: 1 }}>{today.getFullYear()}</div>
-              <div style={{ position: 'absolute', bottom: 18, right: 18, width: 20, height: 20, borderRight: '1.5px solid rgba(232,228,217,0.3)', borderBottom: '1.5px solid rgba(232,228,217,0.3)' }} />
+              <div style={{ fontSize: 56, fontWeight: 500, color: '#e8e4d9', letterSpacing: '0.12em', textTransform: 'uppercase', zIndex: 1 }}>Frame</div>
+              <div style={{ width: 120, height: 2, background: 'rgba(232,228,217,0.35)', margin: '20px 0', zIndex: 1 }} />
+              <div style={{ fontSize: 22, color: 'rgba(232,228,217,0.5)', letterSpacing: '0.15em', zIndex: 1 }}>{today.getFullYear()}</div>
+              <div style={{ position: 'absolute', bottom: 36, right: 36, width: 40, height: 40, borderRight: '3px solid rgba(232,228,217,0.3)', borderBottom: '3px solid rgba(232,228,217,0.3)' }} />
             </div>
 
             {/* Cover Back */}
             <div style={{
               position: 'absolute', inset: 0,
               background: 'var(--paper-bg)',
-              borderRadius: '3px 10px 10px 3px',
+              borderRadius: '6px 20px 20px 6px',
               backfaceVisibility: 'hidden',
               transform: 'rotateY(180deg)',
-              boxShadow: 'inset 4px 0 10px rgba(0,0,0,0.15)',
+              boxShadow: 'inset 8px 0 20px rgba(0,0,0,0.15)',
             }} />
           </motion.div>
         </motion.div>
@@ -159,7 +159,7 @@ export default function HomeScreen() {
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="absolute -top-3 -right-3 bg-[var(--ink)] text-[var(--parchment)] text-[10px] font-medium px-2 py-1 rounded-full"
+              className="absolute -top-6 -right-6 bg-[var(--ink)] text-[var(--parchment)] text-[20px] font-medium px-4 py-2 rounded-full"
               style={{ zIndex: 20 }}
             >
               DAY {dayNum}
