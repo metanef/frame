@@ -7,7 +7,7 @@ import { db, fmt } from '../../db'
 const PERIOD_TABS = ['Week','Month','Year','All']
 
 export default function StatsScreen() {
-  const { goHome } = useAppStore()
+  const { goBack } = useAppStore()
   const [period, setPeriod] = useState('Année')
   const [stats,  setStats]  = useState(null)
   const [selectedBadge, setSelectedBadge] = useState(null)
@@ -102,7 +102,7 @@ export default function StatsScreen() {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center p-8 bg-[var(--surface-0)] min-h-screen text-center">
-        <TopBar onBack={goHome} title="Error" />
+        <TopBar onBack={goBack} title="Error" />
         <div className="text-red-500 font-bold mb-2 mt-20">An error occurred while loading statistics</div>
         <pre className="text-xs text-[var(--text-muted)] bg-[var(--surface-2)] p-4 rounded-lg overflow-auto max-w-full text-left border border-[var(--border)]">
           {error}
@@ -117,7 +117,7 @@ export default function StatsScreen() {
 
   return (
     <div className="flex flex-col pb-10">
-      <TopBar onBack={goHome} title="Statistics" />
+      <TopBar onBack={goBack} title="Statistics" />
 
       {/* Period tabs */}
       <div className="flex gap-1 mx-4 mt-3 bg-[var(--surface-1)] rounded-[10px] p-[3px]">

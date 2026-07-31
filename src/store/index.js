@@ -15,17 +15,19 @@ if (typeof document !== 'undefined') {
 export const useAppStore = create((set) => ({
   // Navigation
   screen: 'home',       // 'home' | 'calendar' | 'day' | 'stats' | 'settings'
+  prevScreen: 'home',
   calView: 'month',     // 'year' | 'month' | 'week'
   selectedDate: null,
 
-  setScreen: (screen) => set({ screen }),
+  setScreen: (screen) => set((state) => ({ prevScreen: state.screen, screen })),
   setCalView: (calView) => set({ calView }),
   setSelectedDate: (date) => set({ selectedDate: date }),
 
-  openDay: (date) => set({ selectedDate: date, screen: 'day' }),
-  openCalendar: (view = 'month') => set({ screen: 'calendar', calView: view }),
-  openStats: () => set({ screen: 'stats' }),
-  goHome: () => set({ screen: 'home' }),
+  openDay: (date) => set((state) => ({ selectedDate: date, prevScreen: state.screen, screen: 'day' })),
+  openCalendar: (view = 'month') => set((state) => ({ prevScreen: state.screen, screen: 'calendar', calView: view })),
+  openStats: () => set((state) => ({ prevScreen: state.screen, screen: 'stats' })),
+  goHome: () => set({ screen: 'home', prevScreen: 'home' }),
+  goBack: () => set((state) => ({ screen: state.prevScreen, prevScreen: 'home' })),
 
   // Theme
   dark: initialDark,

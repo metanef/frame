@@ -14,7 +14,7 @@ const today = new Date()
 today.setHours(0,0,0,0)
 
 export default function CalendarScreen() {
-  const { calView, setCalView, goHome, openDay, setScreen } = useAppStore()
+  const { calView, setCalView, goHome, openDay, setScreen, openStats } = useAppStore()
 
   const [scores, setScores]   = useState({})
   const [refDate, setRefDate] = useState(new Date(today))
@@ -450,13 +450,30 @@ export default function CalendarScreen() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen pb-6 bg-[var(--surface-0)]">
+    <div className="flex flex-col min-h-screen pb-12 bg-[var(--surface-0)] relative">
       <TopBar onBack={goHome} title="Frame" onRight={() => setScreen('settings')} rightIcon="settings" />
       <ZoomTabs active={calView} onChange={(v) => { setCalView(v); setSelected(null) }} tabs={CAL_TABS} />
 
-      {calView === 'year'  && <YearView />}
-      {calView === 'month' && <MonthView />}
-      {calView === 'week'  && <WeekView />}
+      <div className="flex-grow">
+        {calView === 'year'  && <YearView />}
+        {calView === 'month' && <MonthView />}
+        {calView === 'week'  && <WeekView />}
+      </div>
+
+      {/* Stats button */}
+      <div className="mt-8 mb-4 flex justify-center w-full">
+        <button
+          onClick={openStats}
+          className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform focus:outline-none"
+        >
+          <div className="w-14 h-14 rounded-full bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--text-secondary)]">
+              <line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" />
+            </svg>
+          </div>
+          <span className="text-[11px] text-[var(--text-muted)] tracking-widest uppercase font-semibold">Statistics</span>
+        </button>
+      </div>
     </div>
   )
 }

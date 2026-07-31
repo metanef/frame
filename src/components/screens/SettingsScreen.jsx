@@ -12,7 +12,7 @@ const TYPES = [
 ]
 
 export default function SettingsScreen() {
-  const { goHome, toggleDark, dark } = useAppStore()
+  const { goBack, toggleDark, dark } = useAppStore()
   const [habits, setHabits] = useState([])
   const [adding, setAdding] = useState(false)
   const [form, setForm] = useState({ name: '', type: 'boolean', isNegative: false, category: 'objectifs' })
@@ -156,7 +156,7 @@ export default function SettingsScreen() {
 
   return (
     <div className="flex flex-col pb-10">
-      <TopBar onBack={goHome} title="Settings" />
+      <TopBar onBack={goBack} title="Settings" />
 
       <SectionTitle>Bad Habits</SectionTitle>
       <div className="px-4 bg-[var(--surface-1)] rounded-lg mx-4">
