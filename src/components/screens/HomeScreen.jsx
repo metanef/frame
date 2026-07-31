@@ -58,7 +58,7 @@ export default function HomeScreen() {
       <div className="absolute top-10 left-0 right-0 text-center">
         <div className="text-xs font-semibold text-[var(--text-muted)] tracking-[0.2em] uppercase">Frame</div>
         <div className="text-[11px] text-[var(--text-muted)] mt-1">
-          {today.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' })}
+          {today.toLocaleDateString('en-US', { weekday:'long', day:'numeric', month:'long', year:'numeric' })}
         </div>
       </div>
 
@@ -125,7 +125,7 @@ export default function HomeScreen() {
               animate={{ opacity: 1, scale: 1 }}
               className="absolute -top-3 -right-3 bg-[var(--ink)] text-[var(--parchment)] text-[10px] font-medium px-2 py-1 rounded-full"
             >
-              JOUR {dayNum}
+              DAY {dayNum}
             </motion.div>
           )}
         </AnimatePresence>
@@ -144,7 +144,7 @@ export default function HomeScreen() {
               transition={{ duration: 2, repeat: Infinity }}
               className="w-1.5 h-1.5 rounded-full bg-[var(--text-muted)]"
             />
-            <span className="text-[11px] text-[var(--text-muted)] tracking-[0.2em] uppercase font-semibold">TOUCHE POUR OUVRIR</span>
+            <span className="text-[11px] text-[var(--text-muted)] tracking-[0.2em] uppercase font-semibold">TAP TO OPEN</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -159,7 +159,7 @@ export default function HomeScreen() {
             <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
           </svg>
         </div>
-        <span className="text-[11px] text-[var(--text-muted)] tracking-widest uppercase">Statistiques</span>
+        <span className="text-[11px] text-[var(--text-muted)] tracking-widest uppercase">Statistics</span>
       </button>
     </div>
   )

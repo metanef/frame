@@ -4,7 +4,7 @@ import { TopBar, Divider, SectionTitle } from '../ui'
 import { BADGES, getLevel, addDays } from '../../utils'
 import { db, fmt } from '../../db'
 
-const PERIOD_TABS = ['Semaine','Mois','Année','Tout']
+const PERIOD_TABS = ['Week','Month','Year','All']
 
 export default function StatsScreen() {
   const { goHome } = useAppStore()
@@ -59,7 +59,7 @@ export default function StatsScreen() {
 
       // Weekly trend (last 7 days always)
       const weekTrend = []
-      const dayNames = ['L','M','M','J','V','S','D']
+      const dayNames = ['M','T','W','T','F','S','S']
       for (let i = 6; i >= 0; i--) {
         const d = addDays(today, -i)
         const key = fmt(d)
@@ -74,11 +74,11 @@ export default function StatsScreen() {
       const s = { totalDays, successDays, bestStreak, level: getLevel(successDays, bestStreak).level,
         journalDays: 0, waterDays: 0, noOtDays: 0, noFFDays: 0, readDays: 0, perfectWeek: false, last30Rate: 0 }
       // Simplified badge checks from entries
-      const journalHabit = habits.find(h => h.name.includes('Journal'))
-      const waterHabit   = habits.find(h => h.name.includes('eau'))
-      const otHabit      = habits.find(h => h.name.includes('over'))
-      const ffHabit      = habits.find(h => h.name.includes('fast'))
-      const readHabit    = habits.find(h => h.name.includes('ecture'))
+      const journalHabit = habits.find(h => h.name.toLowerCase().includes('journal'))
+      const waterHabit   = habits.find(h => h.name.toLowerCase().includes('water') || h.name.toLowerCase().includes('eau'))
+      const otHabit      = habits.find(h => h.name.toLowerCase().includes('over'))
+      const ffHabit      = habits.find(h => h.name.toLowerCase().includes('fast'))
+      const readHabit    = habits.find(h => h.name.toLowerCase().includes('read') || h.name.toLowerCase().includes('ect'))
       if (journalHabit) s.journalDays = allEntries.filter(e => e.habitId === journalHabit.id && e.status === 'done').length
       if (waterHabit)   s.waterDays   = allEntries.filter(e => e.habitId === waterHabit.id   && e.status === 'done').length
       if (otHabit)      s.noOtDays    = allEntries.filter(e => e.habitId === otHabit.id       && e.status === 'done').length
@@ -102,8 +102,8 @@ export default function StatsScreen() {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center p-8 bg-[var(--background)] min-h-screen text-center">
-        <TopBar onBack={goHome} title="Erreur" />
-        <div className="text-red-500 font-bold mb-2 mt-20">Une erreur est survenue lors du chargement des statistiques</div>
+        <TopBar onBack={goHome} title="Error" />
+        <div className="text-red-500 font-bold mb-2 mt-20">An error occurred while loading statistics</div>
         <pre className="text-xs text-[var(--text-muted)] bg-[var(--surface-2)] p-4 rounded-lg overflow-auto max-w-full text-left border border-[var(--border)]">
           {error}
         </pre>
@@ -111,13 +111,13 @@ export default function StatsScreen() {
     )
   }
 
-  if (!stats) return <div className="flex items-center justify-center h-64 text-[var(--text-muted)] text-sm">Chargement…</div>
+  if (!stats) return <div className="flex items-center justify-center h-64 text-[var(--text-muted)] text-sm">Loading...</div>
 
   const { successDays, totalDays, streak, bestStreak, habitRates, weekTrend, levelInfo, badgeStats } = stats
 
   return (
     <div className="flex flex-col pb-10">
-      <TopBar onBack={goHome} title="Statistiques" />
+      <TopBar onBack={goHome} title="Statistics" />
 
       {/* Period tabs */}
       <div className="flex gap-1 mx-4 mt-3 bg-[var(--surface-1)] rounded-[10px] p-[3px]">
@@ -139,11 +139,11 @@ export default function StatsScreen() {
             </div>
             <div className="flex-1">
               <div className="text-base font-medium" style={{ color: '#e8e4d9' }}>{levelInfo.name}</div>
-              <div className="text-[11px] mt-0.5" style={{ color: 'rgba(232,228,217,.5)' }}>Niveau {levelInfo.level} — {totalDays} jours actifs</div>
+              <div className="text-[11px] mt-0.5" style={{ color: 'rgba(232,228,217,.5)' }}>Level {levelInfo.level} — {totalDays} active days</div>
               {levelInfo.next && (
                 <>
                   <div className="text-[11px] mt-1.5" style={{ color: 'rgba(232,228,217,.6)' }}>
-                    {levelInfo.xp} / {levelInfo.maxXp} XP pour {levelInfo.next}
+                    {levelInfo.xp} / {levelInfo.maxXp} XP for {levelInfo.next}
                   </div>
                   <div className="mt-1 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,.1)' }}>
                     <div className="h-full rounded-full" style={{ width: `${Math.min(100, Math.round((levelInfo.xp / levelInfo.maxXp) * 100))}%`, background: '#97C459' }} />
@@ -158,10 +158,10 @@ export default function StatsScreen() {
       {/* KPIs */}
       <div className="grid grid-cols-2 gap-2 px-4 mt-3">
         {[
-          { val: successDays, label: 'Jours réussis (≥80%)', icon: '📅', accent: '#EAF3DE', iconColor: '#3B6D11' },
-          { val: totalDays ? `${Math.round((successDays/totalDays)*100)}%` : '—', label: 'Taux de réussite', icon: '📈', accent: '#EAF3DE', iconColor: '#3B6D11' },
-          { val: streak, label: 'Streak actuel 🔥', icon: '🔥', accent: '#FFF3E0', iconColor: '#E67E22' },
-          { val: bestStreak, label: 'Meilleur streak', icon: '🏆', accent: '#EEE8FF', iconColor: '#7C3AED' },
+          { val: successDays, label: 'Successful days (≥80%)', icon: '📅', accent: '#EAF3DE', iconColor: '#3B6D11' },
+          { val: totalDays ? `${Math.round((successDays/totalDays)*100)}%` : '—', label: 'Success rate', icon: '📈', accent: '#EAF3DE', iconColor: '#3B6D11' },
+          { val: streak, label: 'Current streak 🔥', icon: '🔥', accent: '#FFF3E0', iconColor: '#E67E22' },
+          { val: bestStreak, label: 'Best streak', icon: '🏆', accent: '#EEE8FF', iconColor: '#7C3AED' },
         ].map((k, i) => (
           <div key={i} className="bg-[var(--surface-1)] border border-[var(--border)] rounded-[10px] p-3">
             <div className="flex items-center justify-between mb-1.5">
@@ -174,7 +174,7 @@ export default function StatsScreen() {
       </div>
 
       {/* Weekly trend */}
-      <SectionTitle>Tendance — 7 derniers jours</SectionTitle>
+      <SectionTitle>Trend — last 7 days</SectionTitle>
       <div className="px-4">
         <div className="flex items-end gap-1.5 h-20">
           {weekTrend?.map((d, i) => {
@@ -194,7 +194,7 @@ export default function StatsScreen() {
       <Divider className="mt-3" />
 
       {/* Habit bar chart */}
-      <SectionTitle>Taux de réussite par habitude</SectionTitle>
+      <SectionTitle>Success rate by habit</SectionTitle>
       <div className="px-4 flex flex-col gap-1.5">
         {habitRates?.map((h, i) => (
           <div key={i} className="flex items-center gap-2">
@@ -251,7 +251,7 @@ export default function StatsScreen() {
             <div className="text-sm font-medium text-[var(--text-primary)]">{selectedBadge.name}</div>
             <div className="text-xs text-[var(--text-muted)] mt-0.5">{selectedBadge.desc}</div>
             <div className="text-[10px] text-[var(--text-muted)] mt-1">
-              {badgeStats && selectedBadge.check(badgeStats) ? '✓ Débloqué' : 'Non encore débloqué'}
+              {badgeStats && selectedBadge.check(badgeStats) ? '✓ Unlocked' : 'Locked'}
             </div>
           </div>
         </div>

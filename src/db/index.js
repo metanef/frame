@@ -35,10 +35,10 @@ db.on('ready', async () => {
     { name: 'No overthinking', category: 'interdits', type: 'boolean',  isNegative: true,  order: 4, isActive: true, createdAt: new Date() },
     // Objectifs (positifs)
     { name: 'Journal (1 page)',category: 'objectifs', type: 'boolean',  isNegative: false, order: 5, isActive: true, createdAt: new Date() },
-    { name: '3L eau',          category: 'objectifs', type: 'counter',  isNegative: false, order: 6, isActive: true, createdAt: new Date() },
-    { name: '10k pas',         category: 'objectifs', type: 'steps',    isNegative: false, order: 7, isActive: true, createdAt: new Date() },
-    { name: 'Lecture (5p)',    category: 'objectifs', type: 'pages',    isNegative: false, order: 8, isActive: true, createdAt: new Date() },
-    { name: 'Écran < 3h',      category: 'objectifs', type: 'duration', isNegative: true,  order: 9, isActive: true, createdAt: new Date() },
+    { name: '3L water',        category: 'objectifs', type: 'counter',  isNegative: false, order: 6, isActive: true, createdAt: new Date() },
+    { name: '10k steps',       category: 'objectifs', type: 'steps',    isNegative: false, order: 7, isActive: true, createdAt: new Date() },
+    { name: 'Reading (5p)',    category: 'objectifs', type: 'pages',    isNegative: false, order: 8, isActive: true, createdAt: new Date() },
+    { name: 'Screen < 3h',      category: 'objectifs', type: 'duration', isNegative: true,  order: 9, isActive: true, createdAt: new Date() },
     { name: 'Skill > 2h',      category: 'objectifs', type: 'duration', isNegative: false, order: 10, isActive: true, createdAt: new Date() },
   ]
   await db.habits.bulkAdd(defaults)

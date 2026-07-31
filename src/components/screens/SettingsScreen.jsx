@@ -4,11 +4,11 @@ import { TopBar, Divider, SectionTitle } from '../ui'
 import { db } from '../../db'
 
 const TYPES = [
-  { value: 'boolean',  label: 'Oui / Non' },
-  { value: 'counter',  label: 'Compteur' },
-  { value: 'duration', label: 'Durée (heures)' },
+  { value: 'boolean',  label: 'Yes / No' },
+  { value: 'counter',  label: 'Counter' },
+  { value: 'duration', label: 'Duration (hours)' },
   { value: 'pages',    label: 'Pages' },
-  { value: 'steps',    label: 'Pas' },
+  { value: 'steps',    label: 'Steps' },
 ]
 
 export default function SettingsScreen() {
@@ -54,12 +54,12 @@ export default function SettingsScreen() {
   }
 
   async function generateTestData() {
-    if (!confirm("Voulez-vous générer des données de test sur les 6 derniers mois ? Cela va remplacer vos entrées existantes sur cette période.")) return
+    if (!confirm("Do you want to generate test data for the last 6 months? This will replace your existing entries for this period.")) return
     
     const allHabits = await db.habits.toArray()
     const activeHabits = allHabits.filter(h => h.isActive === true || h.isActive === 1 || h.isActive === '1')
     if (!activeHabits.length) {
-      alert("Veuillez d'abord créer des habitudes actives.")
+      alert("Please create some active habits first.")
       return
     }
     
@@ -68,13 +68,13 @@ export default function SettingsScreen() {
     const summariesToAdd = []
     const moods = ['😊', '😴', '🧠', '⚡', '😔', '🧘']
     const notes = [
-      "Bonne journée productive !",
-      "Un peu fatigué aujourd'hui.",
-      "Séance de sport intense.",
-      "Concentré sur mon projet de dev.",
-      "Soirée calme, lecture.",
-      "Difficulté à me concentrer ce matin.",
-      "Superbe journée de repos."
+      "Good, productive day!",
+      "A bit tired today.",
+      "Intense workout session.",
+      "Focused on my dev project.",
+      "Quiet evening, reading.",
+      "Hard to focus this morning.",
+      "Great rest day."
     ]
 
     for (let i = 180; i >= 0; i--) {
@@ -124,7 +124,7 @@ export default function SettingsScreen() {
     await db.dailyEntries.bulkAdd(entriesToAdd)
     await db.daySummary.bulkAdd(summariesToAdd)
     
-    alert("Données de test générées avec succès !")
+    alert("Test data successfully generated!")
     window.location.reload()
   }
 
@@ -147,7 +147,7 @@ export default function SettingsScreen() {
             color: h.isActive ? '#3B6D11' : 'var(--text-muted)',
           }}
         >
-          {h.isActive ? 'Actif' : 'Inactif'}
+          {h.isActive ? 'Active' : 'Inactive'}
         </button>
         <button onClick={() => deleteHabit(h.id)} className="text-[var(--text-muted)] hover:text-red-500 text-lg leading-none">×</button>
       </div>
@@ -156,18 +156,18 @@ export default function SettingsScreen() {
 
   return (
     <div className="flex flex-col pb-10">
-      <TopBar onBack={goHome} title="Paramètres" />
+      <TopBar onBack={goHome} title="Settings" />
 
-      <SectionTitle>Interdits</SectionTitle>
+      <SectionTitle>Bad Habits</SectionTitle>
       <div className="px-4 bg-[var(--surface-1)] rounded-lg mx-4">
         {negHabits.map(h => <HabitRow key={h.id} h={h} />)}
-        {negHabits.length === 0 && <div className="py-3 text-sm text-[var(--text-muted)]">Aucun interdit défini</div>}
+        {negHabits.length === 0 && <div className="py-3 text-sm text-[var(--text-muted)]">No bad habits defined</div>}
       </div>
 
-      <SectionTitle>Objectifs</SectionTitle>
+      <SectionTitle>Objectives</SectionTitle>
       <div className="px-4 bg-[var(--surface-1)] rounded-lg mx-4">
         {posHabits.map(h => <HabitRow key={h.id} h={h} />)}
-        {posHabits.length === 0 && <div className="py-3 text-sm text-[var(--text-muted)]">Aucun objectif défini</div>}
+        {posHabits.length === 0 && <div className="py-3 text-sm text-[var(--text-muted)]">No objectives defined</div>}
       </div>
 
       {/* Add habit */}
@@ -177,14 +177,14 @@ export default function SettingsScreen() {
             onClick={() => setAdding(true)}
             className="w-full py-2.5 text-sm border border-dashed border-[var(--border)] rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
           >
-            + Ajouter une habitude
+            + Add a habit
           </button>
         ) : (
           <div className="p-4 bg-[var(--surface-1)] border border-[var(--border)] rounded-xl flex flex-col gap-3">
             <input
               value={form.name}
               onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-              placeholder="Nom de l'habitude"
+              placeholder="Habit name"
               className="w-full border border-[var(--border)] rounded-lg px-3 py-2 text-sm bg-[var(--surface-2)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--border-strong)]"
             />
             <select
@@ -197,16 +197,16 @@ export default function SettingsScreen() {
             <div className="flex gap-3">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="radio" checked={!form.isNegative} onChange={() => setForm(f => ({ ...f, isNegative: false, category: 'objectifs' }))} />
-                <span className="text-sm text-[var(--text-secondary)]">Objectif</span>
+                <span className="text-sm text-[var(--text-secondary)]">Objective</span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="radio" checked={form.isNegative} onChange={() => setForm(f => ({ ...f, isNegative: true, category: 'interdits' }))} />
-                <span className="text-sm text-[var(--text-secondary)]">Interdit</span>
+                <span className="text-sm text-[var(--text-secondary)]">Avoid</span>
               </label>
             </div>
             <div className="flex gap-2">
-              <button onClick={() => setAdding(false)} className="flex-1 py-2 text-sm border border-[var(--border)] rounded-lg text-[var(--text-muted)]">Annuler</button>
-              <button onClick={addHabit} className="flex-1 py-2 text-sm bg-[var(--ink)] text-[var(--parchment)] rounded-lg">Ajouter</button>
+              <button onClick={() => setAdding(false)} className="flex-1 py-2 text-sm border border-[var(--border)] rounded-lg text-[var(--text-muted)]">Cancel</button>
+              <button onClick={addHabit} className="flex-1 py-2 text-sm bg-[var(--ink)] text-[var(--parchment)] rounded-lg">Add</button>
             </div>
           </div>
         )}
@@ -214,10 +214,10 @@ export default function SettingsScreen() {
 
       <Divider className="mt-6" />
 
-      <SectionTitle>Préférences</SectionTitle>
+      <SectionTitle>Preferences</SectionTitle>
       <div className="px-4 flex flex-col gap-2">
         <div className="flex items-center justify-between py-3 border-b border-[var(--border)]">
-          <span className="text-sm text-[var(--text-primary)]">Mode sombre</span>
+          <span className="text-sm text-[var(--text-primary)]">Dark mode</span>
           <button
             onClick={toggleDark}
             className="w-11 h-6 rounded-full relative transition-colors"
@@ -230,12 +230,12 @@ export default function SettingsScreen() {
           </button>
         </div>
         <button onClick={exportData} className="flex items-center justify-between py-3 w-full text-left border-b border-[var(--border)]">
-          <span className="text-sm text-[var(--text-primary)]">Exporter mes données</span>
+          <span className="text-sm text-[var(--text-primary)]">Export my data</span>
           <span className="text-xs text-[var(--text-muted)]">JSON ↓</span>
         </button>
         <button onClick={generateTestData} className="flex items-center justify-between py-3 w-full text-left">
-          <span className="text-sm text-[var(--text-primary)]">Générer des données de test</span>
-          <span className="text-xs text-[var(--text-muted)]">Mode démo ⚙</span>
+          <span className="text-sm text-[var(--text-primary)]">Generate test data</span>
+          <span className="text-xs text-[var(--text-muted)]">Demo mode ⚙</span>
         </button>
       </div>
     </div>

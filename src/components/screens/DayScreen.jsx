@@ -2,15 +2,15 @@ import { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { useAppStore } from '../../store'
 import { TopBar, ScoreRing, Divider, SectionTitle, PrimaryButton } from '../ui'
-import { MONTHS_FR, DAYS_LONG, dayOfYear } from '../../utils'
+import { MONTHS, DAYS_LONG, dayOfYear } from '../../utils'
 import { getDayEntries, saveEntry, saveSummary } from '../../db'
 
 const MOODS = [
-  { key: 'sad',   emoji: '😢', label: 'Triste'  },
-  { key: 'meh',   emoji: '😐', label: 'Neutre'  },
-  { key: 'ok',    emoji: '😊', label: 'Bien'    },
-  { key: 'great', emoji: '😄', label: 'Super'   },
-  { key: 'fire',  emoji: '🔥', label: 'En feu'  },
+  { key: 'sad',   emoji: '😢', label: 'Sad'  },
+  { key: 'meh',   emoji: '😐', label: 'Neutral'  },
+  { key: 'ok',    emoji: '😊', label: 'Good'    },
+  { key: 'great', emoji: '😄', label: 'Great'   },
+  { key: 'fire',  emoji: '🔥', label: 'On fire'  },
 ]
 
 function HabitCard({ habit, entry, onChange }) {
@@ -73,26 +73,26 @@ function HabitCard({ habit, entry, onChange }) {
   // Subtitle helper
   function valLabel() {
     if (status === 'done') {
-      return isNeg ? 'Tenu' : 'Fait'
+      return isNeg ? 'Avoided' : 'Done'
     }
     if (status === 'fail') {
       if (isNeg) {
-        if (type === 'counter') return `${value} fois aujourd'hui`
-        return 'Non tenu'
+        if (type === 'counter') return `${value} times today`
+        return 'Not avoided'
       }
-      return 'Non fait'
+      return 'Not done'
     }
 
     // Status is null
     if (type === 'boolean') {
-      return isNeg ? 'Tenu ou non ?' : 'Fait ou non ?'
+      return isNeg ? 'Avoided or not?' : 'Done or not?'
     }
     if (type === 'counter' && !isNeg) return `${(value * 0.5).toFixed(1)} / 3 L`
-    if (type === 'steps')   return `${value.toLocaleString('fr-FR')} / 10 000 pas`
+    if (type === 'steps')   return `${value.toLocaleString('en-US')} / 10,000 steps`
     if (type === 'pages')   return `${value} / 5 pages`
-    if (type === 'duration' && isNeg) return `${value}h passées`
-    if (type === 'duration' && !isNeg) return `${value}h de travail`
-    if (type === 'counter' && isNeg) return `${value} fois aujourd'hui`
+    if (type === 'duration' && isNeg) return `${value}h spent`
+    if (type === 'duration' && !isNeg) return `${value}h work`
+    if (type === 'counter' && isNeg) return `${value} times today`
     return null
   }
 
@@ -160,7 +160,7 @@ function HabitCard({ habit, entry, onChange }) {
               {type === 'steps' ? Math.round(value / 1000) : value}
             </span>
             <span className="text-[9px] text-[var(--text-muted)] mt-0.5 leading-none font-medium">
-              {type === 'steps' ? '×1k' : type === 'counter' && !isNeg ? '×0.5L' : type === 'duration' ? (habit.name.includes('pages') ? 'pages' : 'heures') : type === 'pages' ? 'pages' : 'fois'}
+              {type === 'steps' ? '×1k' : type === 'counter' && !isNeg ? '×0.5L' : type === 'duration' ? (habit.name.includes('pages') ? 'pages' : 'hours') : type === 'pages' ? 'pages' : 'times'}
             </span>
           </div>
           <button
@@ -218,7 +218,7 @@ export default function DayScreen() {
 
   const dayNum = dayOfYear(date)
   const dow = (date.getDay() + 6) % 7
-  const dateStr = `${date.getDate()} ${MONTHS_FR[date.getMonth()]} ${date.getFullYear()}`
+  const dateStr = `${date.getDate()} ${MONTHS[date.getMonth()]} ${date.getFullYear()}`
 
   return (
     <div className="flex flex-col pb-8 bg-[var(--background)] min-h-screen">
@@ -227,8 +227,8 @@ export default function DayScreen() {
       {/* Day header */}
       <div className="flex items-start justify-between px-4 pt-2">
         <div>
-          <div className="text-3xl font-bold text-[var(--text-primary)] leading-none">Jour {dayNum}</div>
-          <div className="text-xs text-[var(--text-muted)] mt-1.5 font-medium">{DAYS_LONG[dow]} — Semaine {Math.ceil(dayNum / 7)}</div>
+          <div className="text-3xl font-bold text-[var(--text-primary)] leading-none">Day {dayNum}</div>
+          <div className="text-xs text-[var(--text-muted)] mt-1.5 font-medium">{DAYS_LONG[dow]} — Week {Math.ceil(dayNum / 7)}</div>
         </div>
         <ScoreRing score={score} size={54} />
       </div>
@@ -236,7 +236,7 @@ export default function DayScreen() {
       {/* Progress bar */}
       <div className="px-4 mt-4">
         <div className="flex justify-between mb-1.5">
-          <span className="text-[11px] text-[var(--text-secondary)] font-medium">{doneCount} / {habits.length} habitudes</span>
+          <span className="text-[11px] text-[var(--text-secondary)] font-medium">{doneCount} / {habits.length} habits</span>
           <span className="text-[11px] text-[var(--text-secondary)] font-medium">{score}%</span>
         </div>
         <div className="h-1 bg-[var(--surface-2)] rounded-full overflow-hidden border border-[var(--border)]">
@@ -251,7 +251,7 @@ export default function DayScreen() {
       {negHabits.length > 0 && (
         <div className="mt-2">
           <SectionTitle>
-            <span style={{ color: '#E24B4A', marginRight: 6 }}>●</span>INTERDITS
+            <span style={{ color: '#E24B4A', marginRight: 6 }}>●</span>BAD HABITS
           </SectionTitle>
           <div className="px-4">
             {negHabits.map(h => (
@@ -265,7 +265,7 @@ export default function DayScreen() {
       {posHabits.length > 0 && (
         <div className="mt-2">
           <SectionTitle>
-            <span style={{ color: '#3B6D11', marginRight: 6 }}>●</span>OBJECTIFS
+            <span style={{ color: '#3B6D11', marginRight: 6 }}>●</span>OBJECTIVES
           </SectionTitle>
           <div className="px-4">
             {posHabits.map(h => (
@@ -279,19 +279,19 @@ export default function DayScreen() {
 
       {/* Bilan */}
       <div className="mt-2">
-        <SectionTitle>BILAN DU JOUR</SectionTitle>
+        <SectionTitle>DAILY SUMMARY</SectionTitle>
         <div className="px-4 flex flex-col gap-3">
           <textarea
             value={summary.regret}
             onChange={e => setSummary(s => ({ ...s, regret: e.target.value }))}
-            placeholder="Regret — qu'est-ce qui n'a pas marché ?"
+            placeholder="Regret — what didn't work out?"
             rows={3}
             className="w-full border border-[var(--border)] rounded-xl bg-[var(--surface-2)] px-4.5 py-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] resize-none focus:outline-none focus:border-[var(--border-strong)] transition-all"
           />
           <textarea
             value={summary.achievement}
             onChange={e => setSummary(s => ({ ...s, achievement: e.target.value }))}
-            placeholder="Achievement — qu'est-ce dont tu es fier ?"
+            placeholder="Achievement — what are you proud of?"
             rows={3}
             className="w-full border border-[var(--border)] rounded-xl bg-[var(--surface-2)] px-4.5 py-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] resize-none focus:outline-none focus:border-[var(--border-strong)] transition-all"
           />
@@ -299,7 +299,7 @@ export default function DayScreen() {
           {/* Rating */}
           <div className="mt-1">
             <div className="flex justify-between mb-2">
-              <span className="text-xs text-[var(--text-secondary)] font-medium">Note du jour</span>
+              <span className="text-xs text-[var(--text-secondary)] font-medium">Day Rating</span>
               <span className="text-xs font-bold text-[var(--text-primary)]">{summary.rating || '—'} / 10</span>
             </div>
             <div className="flex gap-1">
@@ -328,7 +328,7 @@ export default function DayScreen() {
 
           {/* Mood */}
           <div className="mt-1">
-            <div className="text-xs text-[var(--text-secondary)] mb-2 font-medium">Humeur</div>
+            <div className="text-xs text-[var(--text-secondary)] mb-2 font-medium">Mood</div>
             <div className="flex gap-2">
               {MOODS.map(m => (
                 <button
@@ -351,7 +351,7 @@ export default function DayScreen() {
           </div>
 
           <PrimaryButton onClick={handleSave} className="mt-3 py-3.5 font-bold border border-[var(--border-strong)] rounded-xl active:scale-[0.98] transition-all">
-            {saved ? '✓ Sauvegardé' : 'Sauvegarder la journée'}
+            {saved ? '✓ Saved' : 'Save Day'}
           </PrimaryButton>
         </div>
       </div>

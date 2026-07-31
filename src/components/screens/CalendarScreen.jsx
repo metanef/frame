@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useAppStore } from '../../store'
 import { TopBar, ZoomTabs } from '../ui'
-import { MONTHS_FR, MONTHS_SHORT, DAYS_FR, addDays, getMonday, scoreColor, fmt, dayOfYear } from '../../utils'
+import { MONTHS, MONTHS_SHORT, DAYS, addDays, getMonday, scoreColor, fmt, dayOfYear } from '../../utils'
 import { getScoresForRange, getDayEntries } from '../../db'
 
 const CAL_TABS = [
-  { value: 'year',  label: 'Année' },
-  { value: 'month', label: 'Mois'  },
-  { value: 'week',  label: 'Semaine'},
+  { value: 'year',  label: 'Year' },
+  { value: 'month', label: 'Month'  },
+  { value: 'week',  label: 'Week'},
 ]
 
 const today = new Date()
@@ -20,7 +20,7 @@ export default function CalendarScreen() {
   const [refDate, setRefDate] = useState(new Date(today))
   const [selected, setSelected] = useState(null)
   const [selectedData, setSelectedData] = useState(null)
-  const [selectedStatus, setSelectedStatus] = useState('En cours')
+  const [selectedStatus, setSelectedStatus] = useState('In progress')
 
   // Compute visible range from view and refDate
   const range = useCallback(() => {
@@ -52,7 +52,7 @@ export default function CalendarScreen() {
     getDayEntries(selected).then(({ habits, entryMap, summary }) => {
       setSelectedData({ habits, entryMap, summary })
       const isToday = fmt(selected) === fmt(today)
-      setSelectedStatus(isToday ? 'En cours' : 'Terminé')
+      setSelectedStatus(isToday ? 'In progress' : 'Completed')
     })
   }, [selected])
 
@@ -81,7 +81,7 @@ export default function CalendarScreen() {
   function SelectedDetailsCard() {
     if (!selected) return null
     const isToday = fmt(selected) === fmt(today)
-    const label = `${selected.getDate()} ${MONTHS_FR[selected.getMonth()]} ${selected.getFullYear()}`
+    const label = `${selected.getDate()} ${MONTHS[selected.getMonth()]} ${selected.getFullYear()}`
     const score = scores[fmt(selected)]
     const dayNum = dayOfYear(selected)
 
@@ -90,7 +90,7 @@ export default function CalendarScreen() {
         <div className="flex items-center justify-between mb-3">
           <div className="flex flex-col">
             <span className="text-[11px] text-[var(--text-muted)] tracking-wider uppercase font-semibold">
-              Jour {dayNum} — {isToday ? "Aujourd'hui" : "Bilan"}
+              Day {dayNum} — {isToday ? "Today" : "Summary"}
             </span>
             <span className="text-sm font-bold text-[var(--text-primary)] mt-0.5">
               {label}
@@ -101,7 +101,7 @@ export default function CalendarScreen() {
               {score != null ? `${Math.round(score)}%` : '—'}
             </span>
             <span className={`text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wider ${
-              selectedStatus === 'En cours' ? 'bg-blue-900/30 text-blue-300' : 'bg-emerald-900/30 text-emerald-300'
+              selectedStatus === 'In progress' ? 'bg-blue-900/30 text-blue-300' : 'bg-emerald-900/30 text-emerald-300'
             }`}>
               {selectedStatus}
             </span>
@@ -111,7 +111,7 @@ export default function CalendarScreen() {
         {/* Text descriptions */}
         {isToday && (
           <p className="text-xs text-[var(--text-muted)] mb-3 italic">
-            Journée en cours — reviens ce soir pour compléter !
+            Day in progress — check back tonight to complete!
           </p>
         )}
 
@@ -139,7 +139,7 @@ export default function CalendarScreen() {
             })}
           </div>
         ) : selectedData ? (
-          <div className="text-[11px] text-[var(--text-muted)] italic mb-4">Aucune habitude active pour cette journée.</div>
+          <div className="text-[11px] text-[var(--text-muted)] italic mb-4">No active habits for this day.</div>
         ) : (
           <div className="h-6 mb-4 animate-pulse bg-[var(--surface-1)] rounded" />
         )}
@@ -148,7 +148,7 @@ export default function CalendarScreen() {
           onClick={() => openDay(selected)}
           className="w-full py-2.5 text-sm font-semibold rounded-xl bg-[var(--ink)] text-[var(--parchment)] hover:opacity-90 active:scale-[0.98] transition-all"
         >
-          Ouvrir la journée ↗
+          Open day ↗
         </button>
       </div>
     )
@@ -248,19 +248,19 @@ export default function CalendarScreen() {
         <div className="grid grid-cols-4 gap-2 mb-4">
           <div className="bg-[var(--surface-2)] border border-[var(--border)] rounded-xl p-2 text-center flex flex-col justify-center items-center h-[72px]">
             <span className="text-lg font-bold text-[var(--text-primary)]">{successfulDays}</span>
-            <span className="text-[9px] text-[var(--text-muted)] uppercase tracking-wider mt-0.5 leading-tight font-medium">Jours réussis</span>
+            <span className="text-[9px] text-[var(--text-muted)] uppercase tracking-wider mt-0.5 leading-tight font-medium">Success Days</span>
           </div>
           <div className="bg-[var(--surface-2)] border border-[var(--border)] rounded-xl p-2 text-center flex flex-col justify-center items-center h-[72px]">
             <span className="text-lg font-bold text-[var(--text-primary)]">{currentStreak}</span>
-            <span className="text-[9px] text-[var(--text-muted)] uppercase tracking-wider mt-0.5 leading-tight font-medium">Streak actuel</span>
+            <span className="text-[9px] text-[var(--text-muted)] uppercase tracking-wider mt-0.5 leading-tight font-medium">Current Streak</span>
           </div>
           <div className="bg-[var(--surface-2)] border border-[var(--border)] rounded-xl p-2 text-center flex flex-col justify-center items-center h-[72px]">
             <span className="text-lg font-bold text-[var(--text-primary)]">{bestStreak}</span>
-            <span className="text-[9px] text-[var(--text-muted)] uppercase tracking-wider mt-0.5 leading-tight font-medium">Meilleur streak</span>
+            <span className="text-[9px] text-[var(--text-muted)] uppercase tracking-wider mt-0.5 leading-tight font-medium">Best Streak</span>
           </div>
           <div className="bg-[var(--surface-2)] border border-[var(--border)] rounded-xl p-2 text-center flex flex-col justify-center items-center h-[72px]">
             <span className="text-lg font-bold text-[var(--text-primary)]">{successRate}%</span>
-            <span className="text-[9px] text-[var(--text-muted)] uppercase tracking-wider mt-0.5 leading-tight font-medium">Taux réussite</span>
+            <span className="text-[9px] text-[var(--text-muted)] uppercase tracking-wider mt-0.5 leading-tight font-medium">Success Rate</span>
           </div>
         </div>
 
@@ -300,12 +300,12 @@ export default function CalendarScreen() {
         {/* Legend */}
         <div className="flex gap-x-3 gap-y-1.5 mt-4 flex-wrap justify-start text-[10px]">
           {[
-            ['var(--surface-1)', 'Vide'],
-            ['#97C459', 'Partiel'],
-            ['#3B6D11', 'Bon'],
-            ['#27500A', 'Réussi ≥80%'],
-            ['#F09595', 'Échec'],
-            ['#1e293b', "Aujourd'hui"]
+            ['var(--surface-1)', 'Empty'],
+            ['#97C459', 'Partial'],
+            ['#3B6D11', 'Good'],
+            ['#27500A', 'Success ≥80%'],
+            ['#F09595', 'Failed'],
+            ['#1e293b', "Today"]
           ].map(([c, l]) => (
             <div key={l} className="flex items-center gap-1">
               <div style={{
@@ -332,7 +332,7 @@ export default function CalendarScreen() {
     const dow = first.getDay() === 0 ? 6 : first.getDay() - 1
     const daysInMonth = new Date(year, month + 1, 0).getDate()
 
-    const label = `${MONTHS_FR[month]} ${year}`
+    const label = `${MONTHS[month]} ${year}`
 
     return (
       <div className="px-4 mt-3">
@@ -344,7 +344,7 @@ export default function CalendarScreen() {
         </div>
         {/* Weekday headers */}
         <div className="grid grid-cols-7 gap-0.5 mb-1">
-          {DAYS_FR.map(d => <div key={d} className="text-center text-[10px] font-medium text-[var(--text-muted)] py-1">{d}</div>)}
+          {DAYS.map(d => <div key={d} className="text-center text-[10px] font-medium text-[var(--text-muted)] py-1">{d}</div>)}
         </div>
         {/* Days */}
         <div className="grid grid-cols-7 gap-1">
@@ -375,11 +375,11 @@ export default function CalendarScreen() {
         {/* Legend */}
         <div className="flex gap-x-3 gap-y-1.5 mt-4 flex-wrap justify-start text-[10px]">
           {[
-            ['var(--surface-1)', 'Vide'],
-            ['#97C459', 'Partiel'],
-            ['#27500A', 'Réussi ≥80%'],
-            ['#F09595', 'Échec'],
-            ['#1e293b', "Aujourd'hui"]
+            ['var(--surface-1)', 'Empty'],
+            ['#97C459', 'Partial'],
+            ['#27500A', 'Success ≥80%'],
+            ['#F09595', 'Failed'],
+            ['#1e293b', "Today"]
           ].map(([c, l]) => (
             <div key={l} className="flex items-center gap-1">
               <div style={{
@@ -415,7 +415,7 @@ export default function CalendarScreen() {
           <button onClick={() => setRefDate(prev => addDays(prev, 7))} className="w-8 h-8 rounded-full border border-[var(--border)] bg-[var(--surface-2)] flex items-center justify-center text-[var(--text-secondary)]">›</button>
         </div>
         <div className="grid grid-cols-7 gap-1">
-          {DAYS_FR.map((day, i) => {
+          {DAYS.map((day, i) => {
             const date = addDays(monday, i)
             const isFuture = date > today
             const isToday = fmt(date) === fmt(today)
