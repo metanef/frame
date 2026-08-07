@@ -83,6 +83,7 @@ Open `http://localhost:5173` in your browser.
 - [x] **Year View Overhaul**: Replaced the 53-week contribution graph with a responsive, clickable 12 mini-months layout optimized for mobile screens.
 - [x] **Gamification System**: Local-first badges triggers and experience progression logic.
 - [x] **Realistic Book Opening Animation**: Overhauled the 3D book cover transition with nested motion containers to zoom full-screen first and then rotate open seamlessly like a real journal page.
+- [x] **Data Import & Backups**: Implemented full JSON import/export system with transaction safety to easily back up, restore, and migrate habit data between devices.
 
 #### 🛠️ Minor Updates & Polish
 - [x] **Neutral Color for Empty Days**: Days with no logged entries are rendered as neutral gray in calendar grids rather than counted as failures (red).
@@ -96,9 +97,7 @@ Open `http://localhost:5173` in your browser.
 
 #### 🚀 Major Updates
 - [ ] **PWA Offline Support**: Add service workers (`vite-plugin-pwa`) for offline-first capabilities.
-- [ ] **Data Import & Backups**: Implement import/export system for database backups and JSON data seeding.
 
 #### 🛠️ Minor Updates & Polish
 - [ ] **Notifications**: Reminders to log habits.
-- [ ] **Day Card Statistics**: Add the habit stats summary card on the daily log details page.
 

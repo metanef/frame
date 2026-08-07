@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useAppStore } from '../../store'
 import { TopBar, Divider, SectionTitle } from '../ui'
 import { db } from '../../db'
@@ -51,6 +51,59 @@ export default function SettingsScreen() {
     const a = document.createElement('a')
     a.href = url; a.download = `frame-export-${new Date().toISOString().slice(0,10)}.json`
     a.click(); URL.revokeObjectURL(url)
+  }
+
+  const fileInputRef = useRef(null)
+
+  async function handleImport(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    try {
+      const text = await file.text()
+      const data = JSON.parse(text)
+
+      if (!data || typeof data !== 'object') {
+        throw new Error("Invalid file format.")
+      }
+
+      const { habits, entries, summaries } = data
+
+      if (!Array.isArray(habits)) {
+        throw new Error("Invalid file content: missing habits list.")
+      }
+
+      if (!confirm("⚠️ WARNING: This will completely replace all your current habits, logs, and statistics with the imported data. This action cannot be undone.\n\nDo you want to proceed?")) {
+        e.target.value = ''
+        return
+      }
+
+      await db.transaction('rw', [db.habits, db.dailyEntries, db.daySummary], async () => {
+        await Promise.all([
+          db.habits.clear(),
+          db.dailyEntries.clear(),
+          db.daySummary.clear()
+        ])
+
+        if (habits.length) {
+          await db.habits.bulkAdd(habits)
+        }
+        if (entries && entries.length) {
+          await db.dailyEntries.bulkAdd(entries)
+        }
+        if (summaries && summaries.length) {
+          await db.daySummary.bulkAdd(summaries)
+        }
+      })
+
+      alert("Data successfully imported!")
+      window.location.reload()
+    } catch (err) {
+      console.error('Error importing data:', err)
+      alert("Failed to import data: " + err.message)
+    } finally {
+      e.target.value = ''
+    }
   }
 
   async function generateTestData() {
@@ -232,6 +285,17 @@ export default function SettingsScreen() {
         <button onClick={exportData} className="flex items-center justify-between py-3 w-full text-left border-b border-[var(--border)]">
           <span className="text-sm text-[var(--text-primary)]">Export my data</span>
           <span className="text-xs text-[var(--text-muted)]">JSON ↓</span>
+        </button>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleImport}
+          accept=".json"
+          style={{ display: 'none' }}
+        />
+        <button onClick={() => fileInputRef.current?.click()} className="flex items-center justify-between py-3 w-full text-left border-b border-[var(--border)]">
+          <span className="text-sm text-[var(--text-primary)]">Import my data</span>
+          <span className="text-xs text-[var(--text-muted)]">JSON ↑</span>
         </button>
         <button onClick={generateTestData} className="flex items-center justify-between py-3 w-full text-left">
           <span className="text-sm text-[var(--text-primary)]">Generate test data</span>

@@ -6,18 +6,18 @@ import { MONTHS, DAYS_LONG, dayOfYear } from '../../utils'
 import { getDayEntries, saveEntry, saveSummary } from '../../db'
 
 const MOODS = [
-  { key: 'sad',   emoji: '😢', label: 'Sad'  },
-  { key: 'meh',   emoji: '😐', label: 'Neutral'  },
-  { key: 'ok',    emoji: '😊', label: 'Good'    },
-  { key: 'great', emoji: '😄', label: 'Great'   },
-  { key: 'fire',  emoji: '🔥', label: 'On fire'  },
+  { key: 'sad', emoji: '😢', label: 'Sad' },
+  { key: 'meh', emoji: '😐', label: 'Neutral' },
+  { key: 'ok', emoji: '😊', label: 'Good' },
+  { key: 'great', emoji: '😄', label: 'Great' },
+  { key: 'fire', emoji: '🔥', label: 'On fire' },
 ]
 
 function HabitCard({ habit, entry, onChange }) {
   const status = entry?.status ?? null
-  const value  = entry?.value ?? 0
-  const isNeg  = habit.isNegative
-  const type   = habit.type
+  const value = entry?.value ?? 0
+  const isNeg = habit.isNegative
+  const type = habit.type
 
   const done = status === 'done'
   const fail = status === 'fail'
@@ -42,8 +42,8 @@ function HabitCard({ habit, entry, onChange }) {
       if (type === 'duration') newStatus = next >= 3 ? 'fail' : next > 0 ? 'done' : null
     } else {
       if (type === 'counter') newStatus = next >= 6 ? 'done' : next > 0 ? 'fail' : null
-      if (type === 'steps')   newStatus = next >= 10000 ? 'done' : next > 0 ? 'fail' : null
-      if (type === 'pages')   newStatus = next >= 5 ? 'done' : next > 0 ? 'fail' : null
+      if (type === 'steps') newStatus = next >= 10000 ? 'done' : next > 0 ? 'fail' : null
+      if (type === 'pages') newStatus = next >= 5 ? 'done' : next > 0 ? 'fail' : null
       if (type === 'duration') newStatus = next >= 2 ? 'done' : next > 0 ? 'fail' : null
     }
     onChange(habit.id, newStatus, next)
@@ -88,8 +88,8 @@ function HabitCard({ habit, entry, onChange }) {
       return isNeg ? 'Avoided or not?' : 'Done or not?'
     }
     if (type === 'counter' && !isNeg) return `${(value * 0.5).toFixed(1)} / 3 L`
-    if (type === 'steps')   return `${value.toLocaleString('en-US')} / 10,000 steps`
-    if (type === 'pages')   return `${value} / 5 pages`
+    if (type === 'steps') return `${value.toLocaleString('en-US')} / 10,000 steps`
+    if (type === 'pages') return `${value} / 5 pages`
     if (type === 'duration' && isNeg) return `${value}h spent`
     if (type === 'duration' && !isNeg) return `${value}h work`
     if (type === 'counter' && isNeg) return `${value} times today`
@@ -138,9 +138,8 @@ function HabitCard({ habit, entry, onChange }) {
       <div className="flex-1 min-w-0">
         <div className="text-[13px] font-bold text-[var(--text-primary)] tracking-wide">{habit.name}</div>
         {valLabel() && (
-          <div className={`text-[11px] mt-1 font-medium ${
-            fail ? 'text-red-400' : done ? 'text-emerald-400' : 'text-[var(--text-muted)]'
-          }`}>
+          <div className={`text-[11px] mt-1 font-medium ${fail ? 'text-red-400' : done ? 'text-emerald-400' : 'text-[var(--text-muted)]'
+            }`}>
             {valLabel()}
           </div>
         )}
@@ -179,10 +178,10 @@ export default function DayScreen() {
   const { selectedDate, openCalendar, calView } = useAppStore()
   const date = useMemo(() => selectedDate ?? new Date(), [selectedDate])
 
-  const [habits,   setHabits]   = useState([])
+  const [habits, setHabits] = useState([])
   const [entryMap, setEntryMap] = useState({})
-  const [summary,  setSummary]  = useState({ rating: 0, mood: null, regret: '', achievement: '' })
-  const [saved,    setSaved]    = useState(false)
+  const [summary, setSummary] = useState({ rating: 0, mood: null, regret: '', achievement: '' })
+  const [saved, setSaved] = useState(false)
 
   useEffect(() => {
     getDayEntries(date).then(({ habits, entryMap, summary }) => {
@@ -286,14 +285,14 @@ export default function DayScreen() {
             onChange={e => setSummary(s => ({ ...s, regret: e.target.value }))}
             placeholder="Regret — what didn't work out?"
             rows={3}
-            className="w-full border border-[var(--border)] rounded-xl bg-[var(--surface-2)] px-4.5 py-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] resize-none focus:outline-none focus:border-[var(--border-strong)] transition-all"
+            className="w-full border border-[var(--border)] rounded-xl bg-[var(--surface-2)] px-3 py-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] resize-none focus:outline-none focus:border-[var(--border-strong)] transition-all"
           />
           <textarea
             value={summary.achievement}
             onChange={e => setSummary(s => ({ ...s, achievement: e.target.value }))}
             placeholder="Achievement — what are you proud of?"
             rows={3}
-            className="w-full border border-[var(--border)] rounded-xl bg-[var(--surface-2)] px-4.5 py-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] resize-none focus:outline-none focus:border-[var(--border-strong)] transition-all"
+            className="w-full border border-[var(--border)] rounded-xl bg-[var(--surface-2)] px-3 py-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] resize-none focus:outline-none focus:border-[var(--border-strong)] transition-all"
           />
 
           {/* Rating */}
@@ -335,16 +334,14 @@ export default function DayScreen() {
                   key={m.key}
                   type="button"
                   onClick={() => setSummary(s => ({ ...s, mood: m.key }))}
-                  className={`flex-1 py-3.5 rounded-xl border text-center transition-all duration-200 active:scale-95 ${
-                    summary.mood === m.key
-                      ? 'bg-[var(--surface-2)] border-[#d97706] shadow-sm shadow-[#d97706]/10'
-                      : 'bg-[var(--surface-2)] border-[var(--border)]'
-                  }`}
+                  className={`flex-1 py-3.5 rounded-xl border text-center transition-all duration-200 active:scale-95 ${summary.mood === m.key
+                    ? 'bg-[var(--surface-2)] border-[#d97706] shadow-sm shadow-[#d97706]/10'
+                    : 'bg-[var(--surface-2)] border-[var(--border)]'
+                    }`}
                 >
                   <div className="text-2xl">{m.emoji}</div>
-                  <div className={`text-[9px] mt-1 font-bold uppercase tracking-wider ${
-                    summary.mood === m.key ? 'text-[#d97706]' : 'text-[var(--text-muted)]'
-                  }`}>{m.label}</div>
+                  <div className={`text-[9px] mt-1 font-bold uppercase tracking-wider ${summary.mood === m.key ? 'text-[#d97706]' : 'text-[var(--text-muted)]'
+                    }`}>{m.label}</div>
                 </button>
               ))}
             </div>
