@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { db } from './db/index.js'
+import { registerSW } from 'virtual:pwa-register'
+
+// Register service worker for offline support
+registerSW({ immediate: true })
 
 // Trigger DB init / seed
 db.open().then(() => {

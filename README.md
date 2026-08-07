@@ -6,13 +6,14 @@
 
   **A minimalist, aesthetic, and highly interactive personal logging and habit tracking application.**
 
-  [![v0.7.1](https://img.shields.io/badge/VERSION-0.7.1_STABLE-8b5cf6?style=for-the-badge)](https://github.com/metanef/frame)
+  [![v0.8](https://img.shields.io/badge/VERSION-0.8_STABLE-8b5cf6?style=for-the-badge)](https://github.com/metanef/frame)
 
   <br />
 
   [![React](https://img.shields.io/badge/React-19.0-61DAFB?style=flat-square&logo=react&logoColor=black)](#)
   [![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?style=flat-square&logo=vite&logoColor=white)](#)
   [![Dexie](https://img.shields.io/badge/Dexie.js-IndexedDB-3178C6?style=flat-square)](#)
+  [![PWA](https://img.shields.io/badge/PWA-Offline_Ready-5A0FC8?style=flat-square&logo=pwa&logoColor=white)](#)
   [![Zustand](https://img.shields.io/badge/Zustand-4.5-764ABC?style=flat-square)](#)
   [![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4-38BDF8?style=flat-square&logo=tailwindcss&logoColor=white)](#)
 
@@ -79,6 +80,7 @@ Open `http://localhost:5173` in your browser.
 ### ✅ Done
 
 #### 🚀 Major Updates
+- [x] **PWA Offline Support**: Add service workers (`vite-plugin-pwa`) for offline-first capabilities.
 - [x] **English Translation (i18n)**: Fully translated UI screens (Home, Calendar, Day, Stats, Settings) and seeded database habits to English.
 - [x] **Year View Overhaul**: Replaced the 53-week contribution graph with a responsive, clickable 12 mini-months layout optimized for mobile screens.
 - [x] **Gamification System**: Local-first badges triggers and experience progression logic.
@@ -96,8 +98,6 @@ Open `http://localhost:5173` in your browser.
 ### 🔄 Planned
 
 #### 🚀 Major Updates
-- [ ] **PWA Offline Support**: Add service workers (`vite-plugin-pwa`) for offline-first capabilities.
 
 #### 🛠️ Minor Updates & Polish
 - [ ] **Notifications**: Reminders to log habits.
-

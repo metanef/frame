@@ -16,6 +16,25 @@ export default function SettingsScreen() {
   const [habits, setHabits] = useState([])
   const [adding, setAdding] = useState(false)
   const [form, setForm] = useState({ name: '', type: 'boolean', isNegative: false, category: 'objectifs' })
+  const [deferredPrompt, setDeferredPrompt] = useState(null)
+
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault()
+      setDeferredPrompt(e)
+    }
+    window.addEventListener('beforeinstallprompt', handler)
+    return () => window.removeEventListener('beforeinstallprompt', handler)
+  }, [])
+
+  async function handleInstallApp() {
+    if (!deferredPrompt) return
+    deferredPrompt.prompt()
+    const { outcome } = await deferredPrompt.userChoice
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null)
+    }
+  }
 
   useEffect(() => { db.habits.orderBy('order').toArray().then(setHabits) }, [])
 
@@ -297,6 +316,12 @@ export default function SettingsScreen() {
           <span className="text-sm text-[var(--text-primary)]">Import my data</span>
           <span className="text-xs text-[var(--text-muted)]">JSON ↑</span>
         </button>
+        {deferredPrompt && (
+          <button onClick={handleInstallApp} className="flex items-center justify-between py-3 w-full text-left border-b border-[var(--border)]">
+            <span className="text-sm text-[var(--text-primary)]">Install application (PWA)</span>
+            <span className="text-xs text-[#863bff] font-medium">Install 📲</span>
+          </button>
+        )}
         <button onClick={generateTestData} className="flex items-center justify-between py-3 w-full text-left">
           <span className="text-sm text-[var(--text-primary)]">Generate test data</span>
           <span className="text-xs text-[var(--text-muted)]">Demo mode ⚙</span>
