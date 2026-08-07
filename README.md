@@ -26,14 +26,24 @@
 
 Try the application directly: **[https://metanef.github.io/frame/](https://metanef.github.io/frame/)**
 
-### 📱 100% Local, Offline & Private (Local-First PWA)
+### 📱 100% Local, Offline & Installable (PWA)
 - **Runs 100% Locally**: Once visited or installed, the application is cached on your device via the Service Worker. You do **not** need an internet connection to open or use Frame.
 - **Installable (PWA)**: Install Frame as a native-feeling standalone app directly from your browser:
   - **iOS (Safari)**: Tap *Share* ➔ *Add to Home Screen*.
   - **Android (Chrome)**: Tap *Install* or use the *Install application* button in Settings.
   - **Desktop (Chrome/Edge/Brave)**: Click the *Install* icon in the address bar or within the Settings screen.
-- **Zero Cloud & Total Privacy**: All habit entries, journal reflections, and statistics live exclusively in your device's local storage (**IndexedDB** via Dexie.js). No telemetry, no accounts, and zero cloud dependency.
-- **Data Portability**: Full JSON backup and restore system in the Settings screen to migrate between devices seamlessly.
+
+---
+
+## 🔒 100% Safe, Private & Local-First
+
+> **Your personal habits, journal entries, and reflections belong to you and only you.**
+
+- 🛡️ **Zero Server Transit**: Absolutely nothing is ever transmitted to any remote server, backend, or cloud database.
+- 💾 **100% Local Storage (IndexedDB)**: All daily logs, habit metrics, mood ratings, and notes reside strictly inside your device's browser storage via **Dexie.js**.
+- 🚫 **Zero Tracking & No Telemetry**: No third-party cookies, no advertising SDKs, and zero telemetry collection.
+- ✈️ **Full Offline Autonomy**: Operates seamlessly in flight mode or with no connectivity.
+- 📦 **Total Data Sovereignty**: Easily backup, transfer, or restore your entire journal via standard JSON files with zero platform lock-in.
 
 ---
 
