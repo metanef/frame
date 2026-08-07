@@ -6,7 +6,7 @@
 
   **A minimalist, aesthetic, and highly interactive personal logging and habit tracking application.**
 
-  [![Live Demo](https://img.shields.io/badge/Live_Demo-metanef.github.io%2Fframe-10b981?style=for-the-badge&logo=githubpages&logoColor=white)](https://metanef.github.io/frame/)
+  [![Live Demo](https://img.shields.io/badge/Live_Demo-frame-10b981?style=for-the-badge&logo=githubpages&logoColor=white)](https://metanef.github.io/frame/)
   [![v0.8](https://img.shields.io/badge/VERSION-0.8_STABLE-8b5cf6?style=for-the-badge)](https://github.com/metanef/frame)
 
   <br />
