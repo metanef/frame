@@ -6,6 +6,7 @@
 
   **A minimalist, aesthetic, and highly interactive personal logging and habit tracking application.**
 
+  [![Live Demo](https://img.shields.io/badge/Live_Demo-metanef.github.io%2Fframe-10b981?style=for-the-badge&logo=githubpages&logoColor=white)](https://metanef.github.io/frame/)
   [![v0.8](https://img.shields.io/badge/VERSION-0.8_STABLE-8b5cf6?style=for-the-badge)](https://github.com/metanef/frame)
 
   <br />
@@ -18,6 +19,21 @@
   [![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4-38BDF8?style=flat-square&logo=tailwindcss&logoColor=white)](#)
 
 </div>
+
+---
+
+## 🌐 Live Demo & Installation
+
+Try the application directly: **[https://metanef.github.io/frame/](https://metanef.github.io/frame/)**
+
+### 📱 100% Local, Offline & Private (Local-First PWA)
+- **Runs 100% Locally**: Once visited or installed, the application is cached on your device via the Service Worker. You do **not** need an internet connection to open or use Frame.
+- **Installable (PWA)**: Install Frame as a native-feeling standalone app directly from your browser:
+  - **iOS (Safari)**: Tap *Share* ➔ *Add to Home Screen*.
+  - **Android (Chrome)**: Tap *Install* or use the *Install application* button in Settings.
+  - **Desktop (Chrome/Edge/Brave)**: Click the *Install* icon in the address bar or within the Settings screen.
+- **Zero Cloud & Total Privacy**: All habit entries, journal reflections, and statistics live exclusively in your device's local storage (**IndexedDB** via Dexie.js). No telemetry, no accounts, and zero cloud dependency.
+- **Data Portability**: Full JSON backup and restore system in the Settings screen to migrate between devices seamlessly.
 
 ---
 
