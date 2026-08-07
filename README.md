@@ -24,7 +24,7 @@
 
 ## 🌐 Live Demo & Installation
 
-Try the application directly: **[https://metanef.github.io/frame/](https://metanef.github.io/frame/)**
+Try the application directly: **[Frame](https://metanef.github.io/frame/)**
 
 ### 📱 100% Local, Offline & Installable (PWA)
 - **Runs 100% Locally**: Once visited or installed, the application is cached on your device via the Service Worker. You do **not** need an internet connection to open or use Frame.
